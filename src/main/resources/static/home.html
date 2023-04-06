@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.111.3">
+  <link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css">
+
+  <title>Home</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
+
+  <style>
+    .original-price {
+      color: gray;
+      text-decoration: line-through;
+    }
+    .price {
+      font-weight: bold;
+      color: black;
+      margin-right: 5px;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+
+</head>
+
+<script src="https://unpkg.com/vue@next"></script>
+
+<body>
+
+<!--some icons...-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bag" viewBox="0 0 24 16">
+    <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5ZM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1Zm0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+  </symbol>
+  <symbol id="logout" viewBox="0 0 24 16">
+      <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+      <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+  </symbol>
+  <symbol class="bi bi-heart" viewBox="0 0 16 16">
+    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+  </symbol>
+</svg>
+
+<!--cart and logout-->
+<header data-bs-theme="dark">
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-end align-items-center">
+      <div class="d-flex">
+        <a href="#" class="navbar-brand d-flex align-items-center" v-bind:href="/view-cart">
+          <svg class="bi bi-bag-heart-fill" width="30" height="30" fill="currentColor"><use href="#bag"></use></svg>
+          <strong>Cart</strong>
+        </a>
+        <a href="#" class="navbar-brand d-flex align-items-center" v-bind:href="/logout">
+          <svg width="40" height="40" fill="currentColor" class="bi bi-box-arrow-in-right"><use href="#logout"></use></svg>
+          <strong>Log Out</strong>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!--  Ads...-->
+  <section class="py-5 text-center container" style="background-image: url(image/background-main.jpg); background-size: cover; max-width: 1300px; height: 400px; margin: 0 auto; background-position: center 60%; padding: calc((100% - 400px) / 2) calc((100% - 1300px) / 2);">
+    <div style="position: relative;">
+      <div style="position: absolute; top: 50px; left: 50px; z-index: 1; margin: 30px; background-color: white; border-radius: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 10px;">
+        <strong style="font-size: 30px; margin-left: 20px; margin-right: 20px;">Welcome Hua!</strong>
+      </div>
+      <!-- 其他内容 -->
+    </div>
+  </section>
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container" id = "courseList">
+      <div class="row row-cols-3 g-3">
+        <div class="col" v-for="course in courses">
+          <div class="card shadow-sm">
+              <img :src="course.pic" alt="Placeholder image"/>
+            <div class="card-body">
+              <h5 class="card-title font-weight-bold"><strong>{{ course.name }}</strong></h5>
+              <p></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-secondary" v-on:click="addToCart(course.id)">Add to Cart</button>
+                  <button class="btn btn-sm btn-outline-secondary" v-on:click="viewCourse(course.id)">View</button>
+                </div>
+                <div d-flex justify-content-end align-items-center>
+                <span class="price">${{ course.price }}</span>
+                <span class="original-price ms-2 me-auto"><del>${{ course.originalPrice }}</del></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="text-body-secondary py-5">
+  <div class="container">
+    <p class="float-end mb-1">
+      <a href="#">Back to top</a>
+    </p>
+    <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+    <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+  </div>
+</footer>
+
+
+<script href="js/bootstrap.bundle.min.js"></script>
+
+<script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<!-- Add a Vue.js script to handle the data and bindings -->
+<script>
+  new Vue({
+    el: '#courseList',
+    data() {
+      return {
+        courses: []
+      }
+    },
+    methods: {
+      fetchCourses() {
+        var _this = this;
+        axios.get('http://localhost:8080/course/list')
+        .then(function (response) {
+          console.log(response.data);
+          _this.courses = response.data;
+        });
+      },
+      viewCourse(id) {
+        window.location.href = '/course.html?id=' + id;
+      },
+      addToCart(id) {
+        var _this = this;
+        axios.get('http://localhost:8080/add-to-cart?id=' + id)
+        .then(function (response) {
+          console.log(response.data);
+          _this.courses = response.data;
+        });
+      }
+    },
+    mounted(){
+      this.fetchCourses();
+    }
+  });
+</script>
+</body>
+</html>
