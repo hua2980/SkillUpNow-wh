@@ -3,9 +3,12 @@ package com.skillupnow.demo.controller;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 import com.auth0.jwt.JWT;
+import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.exception.ValidationGroups;
 import com.skillupnow.demo.model.UserType;
 import com.skillupnow.demo.model.dto.CreateUserRequest;
+import com.skillupnow.demo.model.dto.ModifyUserRequest;
+import com.skillupnow.demo.model.po.Customer;
 import com.skillupnow.demo.model.po.Organization;
 import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.repository.UserRepository;
@@ -18,10 +21,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +47,9 @@ public class UserController {
 
   @Autowired
   private OrganizationService organizationService;
+
+  @Autowired
+  private UserRepository userRepository;
 
   @PostMapping("/signup")
   public ResponseEntity<User> createUser(@RequestBody @Validated(ValidationGroups.Insert.class) CreateUserRequest createUserRequest) {
@@ -76,7 +85,35 @@ public class UserController {
   }
 
   @GetMapping("/customer/{id}")
-  public ResponseEntity<User> getCustomerById(@PathVariable Long id) {
+  public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
     return ResponseEntity.ok().body(customerService.findById(id));
+  }
+
+  @PutMapping("/user")
+  public ResponseEntity<User> updateUser(@RequestBody @Validated(ValidationGroups.Update.class)
+      ModifyUserRequest modifyUserRequest) {
+    Long id = modifyUserRequest.getId();
+    // Get current authenticated user
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUsername = authentication.getName();
+    User currentUser = userRepository.findByUsername(currentUsername);
+
+    // Check if current user is the same as the user to be updated
+    if (! currentUser.getId().equals(id)) {
+      throw new SkillUpNowException("You can only update your own information");
+    }
+
+    // user to be updated must exist
+    Optional<User> user = userRepository.findById(id);
+    if (! user.isPresent()) {
+      throw new SkillUpNowException("User not found");
+    }
+
+    User existedUser = user.get();
+    BeanUtils.copyProperties(modifyUserRequest, existedUser);
+    existedUser = userRepository.save(existedUser);
+    User returnedUser = new User();
+    BeanUtils.copyProperties(existedUser, returnedUser, "password");
+    return ResponseEntity.ok().body(returnedUser);
   }
 }
