@@ -1,7 +1,6 @@
 package com.skillupnow.demo.service;
 
 import com.skillupnow.demo.model.dto.TeachPlanTreeDto;
-import com.skillupnow.demo.service.Iml.TeachPlanServiceImpl;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class TeachPlanServiceImplTest {
+public class TeachPlanServiceTest {
 
   @Autowired
-  TeachPlanServiceImpl teachPlanServiceImpl;
+  TeachPlanService teachPlanService;
 
   @Test
   void testFindTeachPlanByCourseId() {
-    List<TeachPlanTreeDto> tree = teachPlanServiceImpl.getTeachPlanTreeByCourseId(4L);
+    List<TeachPlanTreeDto> tree = teachPlanService.getTeachPlanTreeByCourseId(4L);
     Assertions.assertNotNull(tree);
     // there are 3 root nodes
     Assertions.assertEquals(3, tree.size());

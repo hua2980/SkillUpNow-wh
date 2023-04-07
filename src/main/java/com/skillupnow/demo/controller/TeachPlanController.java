@@ -1,6 +1,5 @@
 package com.skillupnow.demo.controller;
 
-import com.skillupnow.demo.service.Iml.TeachPlanServiceImpl;
 import com.skillupnow.demo.service.TeachPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

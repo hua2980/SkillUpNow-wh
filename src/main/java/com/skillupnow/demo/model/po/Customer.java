@@ -1,6 +1,7 @@
 package com.skillupnow.demo.model.po;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.skillupnow.demo.model.UserType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,9 +18,14 @@ public class Customer extends User{
   @JsonIgnore
   private Cart cart;
 
-  public Customer(String username, String password, Cart cart) {
-    super(username, password);
+  public Customer(String username, String password, UserType userType, Cart cart) {
+    super(username, password, userType);
     this.cart = cart;
+  }
+
+  public Customer(String username, String password, UserType userType) {
+    super(username, password, userType);
+    this.cart = new Cart();
   }
 
   public Customer() {

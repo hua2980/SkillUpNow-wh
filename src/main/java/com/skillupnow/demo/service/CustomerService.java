@@ -1,20 +1,21 @@
-package com.skillupnow.demo.service.Iml;
+package com.skillupnow.demo.service;
 
 import com.skillupnow.demo.exception.SkillUpNowException;
+import com.skillupnow.demo.model.UserType;
 import com.skillupnow.demo.model.dto.CreateUserRequest;
 import com.skillupnow.demo.model.po.Cart;
 import com.skillupnow.demo.model.po.Customer;
 import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.repository.CartRepository;
 import com.skillupnow.demo.repository.CustomerRepository;
-import com.skillupnow.demo.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CustomerService implements UserService {
+public class CustomerService {
 
   @Autowired
   private CustomerRepository customerRepository;
@@ -25,9 +26,8 @@ public class CustomerService implements UserService {
   @Autowired
   private CartRepository cartRepository;
 
-  @Override
   @Transactional
-  public User createUser(CreateUserRequest createUserRequest) throws SkillUpNowException {
+  public User createCustomer(CreateUserRequest createUserRequest) throws SkillUpNowException {
     // check if it is a valid password
     if (createUserRequest.getPassword().length() < 7 || !createUserRequest.getPassword()
         .equals(createUserRequest.getConfirmPassword())){
@@ -42,15 +42,22 @@ public class CustomerService implements UserService {
 
     // save the customer
     Customer customer = new Customer();
-    customer.setUsername(createUserRequest.getUsername());
+    BeanUtils.copyProperties(createUserRequest, customer);
     Cart cart = new Cart();
     customer.setCart(cart);
     customer.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 
     // write into database
     User savedUser = customerRepository.save(customer);
+    if (savedUser.getId() == null) {
+      throw new SkillUpNowException("User not saved");
+    }
     cartRepository.save(cart);
 
-    return savedUser;
+    // return the saved user and mute the password
+    User returnInfo = new User();
+    BeanUtils.copyProperties(savedUser, returnInfo, "password");
+
+    return returnInfo;
   }
 }

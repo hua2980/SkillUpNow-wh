@@ -2,9 +2,12 @@ package com.skillupnow.demo.model.po;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.skillupnow.demo.model.UserType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,12 +35,18 @@ public class User {
   @Column(nullable = false)
   String password;
 
+  @JsonProperty
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  UserType userType;
+
   public User() {
   }
 
-  public User(String username, String password) {
+  public User(String username, String password, UserType type) {
     this.username = username;
     this.password = password;
+    this.userType = type;
   }
 
   public void setId(Long id) {
@@ -62,5 +71,13 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public UserType getUserType() {
+    return userType;
+  }
+
+  public void setUserType(UserType userType) {
+    this.userType = userType;
   }
 }

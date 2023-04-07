@@ -1,10 +1,11 @@
 package com.skillupnow.demo.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.skillupnow.demo.model.UserType;
 
 public class CreateUserRequest {
 	@JsonProperty
-	private boolean isCustomer;
+	private UserType userType;
 
 	@JsonProperty
 	private String confirmPassword;
@@ -15,11 +16,11 @@ public class CreateUserRequest {
 	@JsonProperty
 	private String password;
 
-	public CreateUserRequest(String confirmPassword, String username, String password, boolean isCustomer) {
+	public CreateUserRequest(String confirmPassword, String username, String password, UserType userType) {
 		this.confirmPassword = confirmPassword;
 		this.username = username;
 		this.password = password;
-		this.isCustomer = isCustomer;
+		this.userType = userType;
 	}
 
 	public String getConfirmPassword() {
@@ -46,11 +47,11 @@ public class CreateUserRequest {
 		this.password = password;
 	}
 
-	public boolean isCustomer() {
-		return isCustomer;
+	public UserType getUserType() {
+		return userType;
 	}
 
-	public void setCustomer(boolean customer) {
-		isCustomer = customer;
+	public void setUserType(UserType userType) {
+		this.userType = userType;
 	}
 }
