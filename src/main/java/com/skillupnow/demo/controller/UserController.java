@@ -3,6 +3,7 @@ package com.skillupnow.demo.controller;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 import com.auth0.jwt.JWT;
+import com.skillupnow.demo.exception.ValidationGroups;
 import com.skillupnow.demo.model.UserType;
 import com.skillupnow.demo.model.dto.CreateUserRequest;
 import com.skillupnow.demo.model.po.User;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +36,7 @@ public class UserController {
   private OrganizationService organizationService;
 
   @PostMapping("/signup")
-  public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
+  public ResponseEntity<User> createUser(@RequestBody @Validated(ValidationGroups.Insert.class) CreateUserRequest createUserRequest) {
     // Exceptions thrown by UserService (either CustomerService or CompanyService) will be handled by ExceptionHandler
     User user;
     if (createUserRequest.getUserType() == UserType.CUSTOMER) {

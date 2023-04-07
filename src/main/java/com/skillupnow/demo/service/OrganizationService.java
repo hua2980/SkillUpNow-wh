@@ -27,13 +27,6 @@ public class OrganizationService {
 
   @Transactional
   public User createOrganization(CreateUserRequest createUserRequest) throws SkillUpNowException {
-    // check if it is a valid password
-    if (createUserRequest.getPassword().length() < 7 || !createUserRequest.getPassword()
-        .equals(createUserRequest.getConfirmPassword())){
-      System.out.println("Invalid password");
-      throw new SkillUpNowException("Invalid password");
-    }
-
     // check if the username is already taken
     if (userRepository.findByUsername(createUserRequest.getUsername()) != null) {
       throw new SkillUpNowException("Username already taken");

@@ -24,4 +24,29 @@ public class GlobalExceptionHandler {
   public RestErrorResponse commonExceptionHandler(SkillUpNowException exception) {
     return new RestErrorResponse(exception.getErrMessage());
   }
+
+  /**
+   * Processing Spring's MethodArgumentNotValidException exception
+   * @param exception exception being caught
+   * @return RestErrorResponse
+   */
+  @ResponseBody
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public RestErrorResponse commentExceptionHandler(MethodArgumentNotValidException exception) {
+    // Store error messages
+    List<String> errors = exception.getBindingResult()
+        .getFieldErrors().stream()
+        .map(ObjectError::getDefaultMessage)
+        .collect(Collectors.toList());
+
+    // Concatenate error messages
+    StringBuffer errMsg = new StringBuffer();
+    errors.forEach(error -> {
+      errMsg.append(error).append(", ");
+    });
+    if (errMsg.length() > 0) errMsg.setLength(errMsg.length() - 2);
+
+    return new RestErrorResponse(errMsg.toString());
+  }
 }
