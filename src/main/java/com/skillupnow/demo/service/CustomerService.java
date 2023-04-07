@@ -30,6 +30,16 @@ public class CustomerService {
   @Autowired
   private CartRepository cartRepository;
 
+  public Customer findById(Long id) {
+    Customer customer = customerRepository.findById(id).orElse(null);
+    if (customer == null) {
+      throw new SkillUpNowException("Customer not found");
+    }
+    Customer returnCustomer = new Customer();
+    BeanUtils.copyProperties(customer, returnCustomer, "password");
+    return returnCustomer;
+  }
+
   @Transactional
   public User createCustomer(CreateUserRequest createUserRequest) throws SkillUpNowException {
     // check if the username is already taken

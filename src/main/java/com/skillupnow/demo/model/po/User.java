@@ -42,6 +42,14 @@ public class User implements Serializable {
   @Enumerated(EnumType.STRING)
   UserType userType;
 
+  @JsonProperty
+  @Column(name = "email")
+  String email;
+
+  @JsonProperty
+  @Column(name = "headline")
+  String headline;
+
   public User() {
   }
 
@@ -81,5 +89,21 @@ public class User implements Serializable {
 
   public void setUserType(UserType userType) {
     this.userType = userType;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getHeadline() {
+    return headline;
+  }
+
+  public void setHeadline(String headline) {
+    this.headline = headline;
   }
 }
