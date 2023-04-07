@@ -16,14 +16,14 @@ VALUES
 
 INSERT INTO organization (id, organization_name)
 VALUES
-    (1, 'Learn 365');
+    (2, 'Learn 365');
 
 INSERT INTO course (id, name, price, original_price, description, course_type, pic, organization_id)
 VALUES
-    (1, 'The Complete Spring Boot Development BootCamp', 16.99, 19.99, 'Become a Java Web Developer: MVC, REST API, OpenAPI Documentation, Testing, Spring Data JPA (SQL), Spring Security (JWT)', 'Spring Boot', '/image/spring-boot-development.jpg', 1),
-    (2, 'Hibernate and Spring Data JPA', 12.99, 21.99, 'Master Hibernate, Remove the mystery of Spring Data JPA - Use Spring Boot 3!', 'Spring Boot', '/image/jpa-hibernate.jpg', 1),
-    (3, 'The Complete SQL Bootcamp: Go from Zero to Hero', 15.99, 18.99, 'Become an expert at SQL!', 'SQL', '/image/The-Complete-SQL-Bootcamp.jpg', 1),
-    (4, 'Python for Data Science and Machine Learning Bootcamp', 17.59, 24.59, 'Learn how to use NumPy, Pandas, Seaborn , Matplotlib , Plotly , Scikit-Learn , Machine Learning, Tensorflow , and more!', 'Machine Learning', '/image/python-data-science.jpg', 1);
+    (1, 'The Complete Spring Boot Development BootCamp', 16.99, 19.99, 'Become a Java Web Developer: MVC, REST API, OpenAPI Documentation, Testing, Spring Data JPA (SQL), Spring Security (JWT)', 'Spring Boot', '/image/spring-boot-development.jpg', 2),
+    (2, 'Hibernate and Spring Data JPA', 12.99, 21.99, 'Master Hibernate, Remove the mystery of Spring Data JPA - Use Spring Boot 3!', 'Spring Boot', '/image/jpa-hibernate.jpg', 2),
+    (3, 'The Complete SQL Bootcamp: Go from Zero to Hero', 15.99, 18.99, 'Become an expert at SQL!', 'SQL', '/image/The-Complete-SQL-Bootcamp.jpg', 2),
+    (4, 'Python for Data Science and Machine Learning Bootcamp', 17.59, 24.59, 'Learn how to use NumPy, Pandas, Seaborn , Matplotlib , Plotly , Scikit-Learn , Machine Learning, Tensorflow , and more!', 'Machine Learning', '/image/python-data-science.jpg', 2);
 
 INSERT INTO teach_plan (id, pname, parent_id, grade, description, course_id, order_by)
 VALUES
