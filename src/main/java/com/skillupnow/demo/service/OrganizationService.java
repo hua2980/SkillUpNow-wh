@@ -2,8 +2,6 @@ package com.skillupnow.demo.service;
 
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.dto.CreateUserRequest;
-import com.skillupnow.demo.model.po.Cart;
-import com.skillupnow.demo.model.po.Customer;
 import com.skillupnow.demo.model.po.Organization;
 import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.repository.OrganizationRepository;
