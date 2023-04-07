@@ -1,6 +1,7 @@
 package com.skillupnow.demo.model.po;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,24 +16,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "teach_plan")
 public class TeachPlan implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonProperty
   private Long id;
 
   @Column(name = "pname", nullable = false)
+  @JsonProperty
   private String pname;
 
   @Column(name = "parent_id", nullable = false)
+  @JsonProperty
   private Long parentId;
 
   @Column(name = "grade", nullable = false)
+  @JsonProperty
   private Short grade;
 
   @Column(name = "description")
+  @JsonProperty
   private String description;
 
   @Column(name = "order_by")
+  @JsonProperty
   private Integer orderBy;
 
   /*

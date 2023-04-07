@@ -2,6 +2,7 @@ package com.skillupnow.demo.model.po;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.skillupnow.demo.model.UserType;
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "customer")
-public class Customer extends User{
+public class Customer extends User implements Serializable {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "cart_id", referencedColumnName = "id")
   @JsonIgnore

@@ -9,6 +9,7 @@ import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.security.SecurityConstants;
 import com.skillupnow.demo.security.UserDetailServiceImpl;
 import com.skillupnow.demo.service.CustomerService;
+import com.skillupnow.demo.service.OrganizationService;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,9 @@ public class UserController {
   @Autowired
   private UserDetailServiceImpl userDetailService;
 
+  @Autowired
+  private OrganizationService organizationService;
+
   @PostMapping("/signup")
   public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
     // Exceptions thrown by UserService (either CustomerService or CompanyService) will be handled by ExceptionHandler
@@ -36,8 +40,7 @@ public class UserController {
     if (createUserRequest.getUserType() == UserType.CUSTOMER) {
       user = customerService.createCustomer(createUserRequest);
     } else {
-      // TODO: create company by CompanyService
-      user = null;
+      user = organizationService.createOrganization(createUserRequest);
     }
 
     // Generate JWT token

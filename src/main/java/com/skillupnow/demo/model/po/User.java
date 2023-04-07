@@ -3,6 +3,7 @@ package com.skillupnow.demo.model.po;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skillupnow.demo.model.UserType;
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,8 @@ import javax.persistence.Table;
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   @Id
   @JsonProperty
@@ -36,7 +38,7 @@ public class User {
   String password;
 
   @JsonProperty
-  @Column(nullable = false)
+  @Column(name = "user_type", nullable = false)
   @Enumerated(EnumType.STRING)
   UserType userType;
 

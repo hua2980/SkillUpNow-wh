@@ -1,6 +1,7 @@
 package com.skillupnow.demo.model.po;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cart")
-public class Cart {
+public class Cart implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +29,7 @@ public class Cart {
   we can retrieve the cart data from the user,
   and the user data from the cart.
    */
-  @OneToOne
+  @OneToOne(mappedBy = "cart")
   @JsonProperty
   private Customer customer;
 
