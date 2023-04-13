@@ -1,12 +1,12 @@
 package com.skillupnow.demo.model.po;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +30,7 @@ public class Cart implements Serializable {
   and the user data from the cart.
    */
   @OneToOne(mappedBy = "cart")
-  @JsonProperty
+  @JsonIgnore
   private Customer customer;
 
   /*
@@ -81,7 +81,7 @@ public class Cart implements Serializable {
     this.total = total;
   }
 
-  public void addItem(Course course) {
+  public void addCourse(Course course) {
     if(courses == null) {
       courses = new ArrayList<>();
     }
@@ -92,7 +92,7 @@ public class Cart implements Serializable {
     total = total.add(course.getPrice());
   }
 
-  public void removeItem(Course course) {
+  public void removeCourse(Course course) {
     if(courses == null) {
       courses = new ArrayList<>();
     }
@@ -101,5 +101,10 @@ public class Cart implements Serializable {
       total = new BigDecimal(0);
     }
     total = total.subtract(course.getPrice());
+  }
+
+  @JsonProperty("username")
+  public String getUsername() {
+    return customer.getUsername();
   }
 }

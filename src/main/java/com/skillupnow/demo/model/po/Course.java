@@ -28,7 +28,7 @@ public class Course implements Serializable{
 
   @ManyToOne
   @JoinColumn(name = "organization_id", referencedColumnName = "id")
-  @JsonProperty
+  @JsonIgnore
   private Organization organization;
 
   @Column(name = "name", nullable = false)

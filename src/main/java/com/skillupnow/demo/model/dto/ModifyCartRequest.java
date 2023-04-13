@@ -1,21 +1,31 @@
 package com.skillupnow.demo.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.skillupnow.demo.exception.ValidationGroups;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Digits;
 
 public class ModifyCartRequest {
   @JsonProperty
+  @NotEmpty(message = "Username is required", groups = {ValidationGroups.Update.class})
   private String username;
 
   @JsonProperty
-  private long itemId;
+  @NotNull(message = "CourseId is required", groups = {ValidationGroups.Update.class})
+  private long courseId;
 
   @JsonProperty
-  private int quantity;
+  @DecimalMax(value = "1", message = "Delete must be 0 or 1", groups = {ValidationGroups.Update.class})
+  @DecimalMin(value = "0", message = "Delete must be 0 or 1", groups = {ValidationGroups.Update.class})
+  private int delete;
 
-  public ModifyCartRequest(String username, long itemId, int quantity) {
+  public ModifyCartRequest(String username, long courseId, int delete) {
     this.username = username;
-    this.itemId = itemId;
-    this.quantity = quantity;
+    this.courseId = courseId;
+    this.delete = delete;
   }
 
   public String getUsername() {
@@ -26,19 +36,19 @@ public class ModifyCartRequest {
     this.username = username;
   }
 
-  public long getItemId() {
-    return itemId;
+  public long getCourseId() {
+    return courseId;
   }
 
-  public void setItemId(long itemId) {
-    this.itemId = itemId;
+  public void setCourseId(long courseId) {
+    this.courseId = courseId;
   }
 
-  public int getQuantity() {
-    return quantity;
+  public int getDelete() {
+    return delete;
   }
 
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
+  public void setDelete(int delete) {
+    this.delete = delete;
   }
 }

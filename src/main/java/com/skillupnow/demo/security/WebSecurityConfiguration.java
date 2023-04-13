@@ -27,7 +27,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable().authorizeRequests()
         .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
-        .antMatchers("/customer/**").hasAuthority("CUSTOMER") // 只允许具有 ROLE_CUSTOMER 权限的用户访问 /customer 下的资源
+        .antMatchers("/customer/**", "/cart/**").hasAuthority("CUSTOMER") // 只允许具有 ROLE_CUSTOMER 权限的用户访问 /customer 下的资源
         .antMatchers("/organization/**").hasAuthority("ORGANIZATION") // 只允许具有 ROLE_COMPANY 权限的用户访问 /company 下的资源
         .anyRequest().authenticated()
         .and()
