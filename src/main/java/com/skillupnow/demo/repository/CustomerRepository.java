@@ -12,7 +12,4 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	Customer findByUsername(String username);
-
-	@Query("SELECT c FROM Customer c WHERE c.id = ?1")
-	Optional<Customer> findById(Long id);
 }

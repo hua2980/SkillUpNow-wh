@@ -9,7 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
   Organization findByUsername(String username);
-
-  @Query("select o from Organization o where o.id = ?1")
-  Optional<Organization> findById(Long id);
 }

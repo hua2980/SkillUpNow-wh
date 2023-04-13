@@ -30,8 +30,8 @@ public class CustomerService {
   @Autowired
   private CartRepository cartRepository;
 
-  public Customer findById(Long id) {
-    Customer customer = customerRepository.findById(id).orElse(null);
+  public Customer findByUsername(String username) {
+    Customer customer = customerRepository.findByUsername(username);
     if (customer == null) {
       throw new SkillUpNowException("Customer not found");
     }

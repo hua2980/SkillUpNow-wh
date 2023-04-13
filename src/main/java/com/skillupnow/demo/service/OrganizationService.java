@@ -24,8 +24,8 @@ public class OrganizationService {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  public Organization findById(Long id) {
-    Organization organization = organizationRepository.findById(id).orElse(null);
+  public Organization findByUsername(String username) {
+    Organization organization = organizationRepository.findByUsername(username);
     if (organization == null) {
       throw new SkillUpNowException("Organization not found");
     }

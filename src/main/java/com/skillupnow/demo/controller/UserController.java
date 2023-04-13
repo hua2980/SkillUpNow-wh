@@ -79,14 +79,20 @@ public class UserController {
     return ResponseEntity.ok().headers(headers).body(user);
   }
 
-  @GetMapping("/organization/{id}")
-  public ResponseEntity<Organization> getOrganizationById(@PathVariable Long id) {
-    return ResponseEntity.ok().body(organizationService.findById(id));
+  @GetMapping("/organization")
+  public ResponseEntity<Organization> getOrganizationInfo() {
+    // Get current authenticated user
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUsername = authentication.getName();
+    return ResponseEntity.ok().body(organizationService.findByUsername(currentUsername));
   }
 
-  @GetMapping("/customer/{id}")
-  public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-    return ResponseEntity.ok().body(customerService.findById(id));
+  @GetMapping("/customer")
+  public ResponseEntity<Customer> getCustomerInfo() {
+    // Get current authenticated user
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUsername = authentication.getName();
+    return ResponseEntity.ok().body(customerService.findByUsername(currentUsername));
   }
 
   @PutMapping("/user")
