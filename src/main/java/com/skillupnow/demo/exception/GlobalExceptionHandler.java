@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
   @ResponseBody
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public RestErrorResponse commentExceptionHandler(MethodArgumentNotValidException exception) {
+  public RestErrorResponse commonExceptionHandler(MethodArgumentNotValidException exception) {
     // Store error messages
     List<String> errors = exception.getBindingResult()
         .getFieldErrors().stream()
@@ -48,5 +48,17 @@ public class GlobalExceptionHandler {
     if (errMsg.length() > 0) errMsg.setLength(errMsg.length() - 2);
 
     return new RestErrorResponse(errMsg.toString());
+  }
+
+  /**
+   * Processing other exceptions
+   * @param exception exception being caught
+   * @return RestErrorResponse
+   */
+  @ResponseBody
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 状态码500
+  public RestErrorResponse uncommonExceptionHandler(Exception exception) {
+    return new RestErrorResponse(exception.getMessage());
   }
 }

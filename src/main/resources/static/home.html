@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
+  <link rel="icon" href="image/my-icon.png">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="author" content="Hua Wang">
   <meta name="generator" content="Hugo 0.111.3">
   <link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css">
 
@@ -76,7 +76,7 @@
           <svg class="bi bi-bag-heart-fill" width="30" height="30" fill="currentColor"><use href="#bag"></use></svg>
           <strong>Cart</strong>
         </a>
-        <a href="#" class="navbar-brand d-flex align-items-center" v-bind:href="/logout">
+        <a href="#" class="navbar-brand d-flex align-items-center" id="logout-link">
           <svg width="40" height="40" fill="currentColor" class="bi bi-box-arrow-in-right"><use href="#logout"></use></svg>
           <strong>Log Out</strong>
         </a>
@@ -141,9 +141,21 @@
 
 <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="js/main.js"></script>
 
 <!-- Add a Vue.js script to handle the data and bindings -->
 <script>
+  function logout() {
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    console.log("logout");
+    window.location.href = "http://localhost:8080/login.html";
+  }
+
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    logout();
+  });
+
   new Vue({
     el: '#courseList',
     data() {
@@ -153,11 +165,26 @@
     },
     methods: {
       fetchCourses() {
+        const token = getCookie('token');
+        if (!token) {
+          console.log('JWT token not found in the cookie.');
+          window.location.href = 'http://localhost:8080/login.html';
+        }
         var _this = this;
+        // axios({
+        //   method: 'get',
+        //   url: 'http://localhost:8080/course/list',
+        //   headers: {
+        //     'Authorization': 'Bearer ' + token
+        //   }
+        // })
         axios.get('http://localhost:8080/course/list')
         .then(function (response) {
           console.log(response.data);
           _this.courses = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
         });
       },
       viewCourse(id) {
@@ -165,7 +192,7 @@
       },
       addToCart(id) {
         var _this = this;
-        axios.get('http://localhost:8080/add-to-cart?id=' + id)
+        axios.get('http://localhost:8080/course/add-to-cart?id=' + id)
         .then(function (response) {
           console.log(response.data);
           _this.courses = response.data;
@@ -173,6 +200,7 @@
       }
     },
     mounted(){
+      console.log("Vue component created");
       this.fetchCourses();
     }
   });

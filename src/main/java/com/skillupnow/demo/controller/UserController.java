@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,9 +27,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,8 +60,17 @@ public class UserController {
       user = organizationService.createOrganization(createUserRequest);
     }
 
+    HttpHeaders headers = createAuthorizedHeader(userDetailService.loadUserByUsername(user.getUsername()));
+
+    return ResponseEntity.ok().headers(headers).body(user);
+  }
+
+  /**
+   * Generate token
+   * @return JWT token
+   */
+  private HttpHeaders createAuthorizedHeader(UserDetails userDetail) {
     // Generate JWT token
-    org.springframework.security.core.userdetails.UserDetails userDetail = userDetailService.loadUserByUsername(user.getUsername());
     List<String> roles = userDetail.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .collect(Collectors.toList());
@@ -76,7 +84,7 @@ public class UserController {
     HttpHeaders headers = new HttpHeaders();
     headers.add(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
 
-    return ResponseEntity.ok().headers(headers).body(user);
+    return headers;
   }
 
   @GetMapping("/organization")

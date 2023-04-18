@@ -2,6 +2,7 @@ package com.skillupnow.demo.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.skillupnow.demo.exception.RestErrorResponse;
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.po.User;
 import java.io.IOException;
@@ -14,7 +15,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,11 +31,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   private AuthenticationManager authenticationManager;
 
-  private UserDetailServiceImpl userDetailsServiceImpl;
-
-  public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailServiceImpl userDetailsServiceImpl) {
+  public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
-    this.userDetailsServiceImpl = userDetailsServiceImpl;
 
     setFilterProcessesUrl(SecurityConstants.LOG_IN_URL);
     setPostOnly(true);
@@ -84,12 +85,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   @Override
   protected void unsuccessfulAuthentication(HttpServletRequest request,
       HttpServletResponse response, AuthenticationException failed)
-      throws IOException, ServletException {
-    // throw custom exception, will be handled by exception handler
-    if (failed.getMessage().equals("Bad credentials")) {
-      throw new SkillUpNowException("Invalid username or password");
+      throws IOException {
+    String errorMessage;
+    HttpStatus status;
+    if (failed instanceof BadCredentialsException) {
+      errorMessage = "Invalid username or password";
+      status = HttpStatus.UNAUTHORIZED;
     } else {
-      throw new SkillUpNowException("Authentication failed");
+      errorMessage = "Authentication failed";
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
+    RestErrorResponse errorResponse = new RestErrorResponse(errorMessage);
+    response.setStatus(status.value());
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
   }
+
 }

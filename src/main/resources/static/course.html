@@ -2,16 +2,16 @@
 <html lang="en" data-bs-theme="auto" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <!--  <script src="../assets/js/color-modes.js"></script>-->
-
+  <link rel="icon" href="image/my-icon.png">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="author" content="Hua Wang">
   <meta name="generator" content="Hugo 0.111.3">
 
   <link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css">
 
-  <title>Home</title>
+  <title>Course Detail</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
 
@@ -101,7 +101,7 @@
           <svg class="bi bi-bag-heart-fill" width="30" height="30" fill="currentColor"><use href="#bag"></use></svg>
           <strong>Cart</strong>
         </a>
-        <a href="#" class="navbar-brand d-flex align-items-center text-dark" v-bind:href="/logout">
+        <a href="#" class="navbar-brand d-flex align-items-center text-dark" id="logout-link">
           <svg width="40" height="40" fill="currentColor" class="bi bi-box-arrow-in-right"><use href="#logout"></use></svg>
           <strong>Log Out</strong>
         </a>
@@ -168,8 +168,20 @@
 
 <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="js/main.js"></script>
 
 <script>
+  function logout() {
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    console.log("logout");
+    window.location.href = "http://localhost:8080/login.html";
+  }
+
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    logout();
+  });
+
   new Vue({
     el: '#courseDetails',
     data() {
