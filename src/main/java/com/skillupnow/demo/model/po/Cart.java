@@ -49,6 +49,17 @@ public class Cart implements Serializable {
   @JsonProperty
   private BigDecimal total;
 
+  @JsonProperty
+  private BigDecimal originalTotal;
+
+  public BigDecimal getOriginalTotal() {
+    return originalTotal;
+  }
+
+  public void setOriginalTotal(BigDecimal originalTotal) {
+    this.originalTotal = originalTotal;
+  }
+
   public Long getId() {
     return id;
   }
@@ -82,25 +93,29 @@ public class Cart implements Serializable {
   }
 
   public void addCourse(Course course) {
-    if(courses == null) {
-      courses = new ArrayList<>();
-    }
+    initializeCart();
     courses.add(course);
-    if (total == null) {
-      total = new BigDecimal(0);
-    }
     total = total.add(course.getPrice());
+    originalTotal = originalTotal.add(course.getOriginalPrice());
   }
 
   public void removeCourse(Course course) {
+    initializeCart();
+    courses.remove(course);
+    total = total.subtract(course.getPrice());
+    originalTotal = originalTotal.subtract(course.getOriginalPrice());
+  }
+
+  private void initializeCart() {
     if(courses == null) {
       courses = new ArrayList<>();
     }
-    courses.remove(course);
-    if(total == null) {
+    if (total == null) {
       total = new BigDecimal(0);
     }
-    total = total.subtract(course.getPrice());
+    if (originalTotal == null) {
+      originalTotal = new BigDecimal(0);
+    }
   }
 
   @JsonProperty("username")

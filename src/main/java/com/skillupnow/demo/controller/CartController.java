@@ -13,26 +13,26 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/cart")
 public class CartController {
   @Autowired
   CartService cartService;
 
-  @PutMapping("/cart")
+  @PutMapping
   public ResponseEntity<Cart> addCourseToCart(@RequestBody @Validated(ValidationGroups.Update.class) ModifyCartRequest request) {
     // assert that the username in authentication should match the username in the request
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();
-    if (!currentUsername.equals(request.getUsername())) {
-      throw new SkillUpNowException("You should not modify other's cart");
-    }
+    request.setUsername(currentUsername);
     Cart cart = cartService.modifyCart(request);
     return ResponseEntity.ok().body(cart);
   }
 
-  @GetMapping("/cart")
+  @GetMapping
   public ResponseEntity<Cart> getCart() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();

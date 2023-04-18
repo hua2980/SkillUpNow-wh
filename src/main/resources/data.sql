@@ -4,10 +4,10 @@ VALUES
     (2, 'learn365', '$2a$10$eZlcSIy9UQmc3I8iFSyrLO0ikv2kONNIq5xuwU7AKE9taf0K25TA.', 'ORGANIZATION'),
     (3, 'Rachel', '$2a$10$PpmsF0Uyf7e5xKT4SJyM/OPlV2BQASj8QX0FMludy7KKoNFaDdBAK', 'CUSTOMER');
 
-INSERT INTO cart (id, total)
+INSERT INTO cart (id, total, original_total)
 VALUES
-    (1, 0),
-    (2, 0);
+    (1, 0, 0),
+    (2, 0, 0);
 
 INSERT INTO customer (id, cart_id)
 VALUES

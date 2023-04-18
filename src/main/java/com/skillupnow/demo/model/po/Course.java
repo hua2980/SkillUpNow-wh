@@ -133,4 +133,9 @@ public class Course implements Serializable{
   public void setOrganization(Organization organization) {
     this.organization = organization;
   }
+
+  @JsonProperty("organization_name")
+  public String getOrganizationName() {
+    return organization.getOrganizationName();
+  }
 }

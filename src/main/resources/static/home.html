@@ -72,7 +72,7 @@
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container d-flex justify-content-end align-items-center">
       <div class="d-flex">
-        <a href="#" class="navbar-brand d-flex align-items-center" v-bind:href="/view-cart">
+        <a href="#" class="navbar-brand d-flex align-items-center" id="cart-link">
           <svg class="bi bi-bag-heart-fill" width="30" height="30" fill="currentColor"><use href="#bag"></use></svg>
           <strong>Cart</strong>
         </a>
@@ -86,19 +86,20 @@
 </header>
 
 <main>
+<div id="courseList">
 
 <!--  Ads...-->
-  <section class="py-5 text-center container" style="background-image: url(image/background-main.jpg); background-size: cover; max-width: 1300px; height: 400px; margin: 0 auto; background-position: center 60%; padding: calc((100% - 400px) / 2) calc((100% - 1300px) / 2);">
-    <div style="position: relative;">
-      <div style="position: absolute; top: 50px; left: 50px; z-index: 1; margin: 30px; background-color: white; border-radius: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 10px;">
-        <strong style="font-size: 30px; margin-left: 20px; margin-right: 20px;">Welcome Hua!</strong>
-      </div>
-      <!-- 其他内容 -->
+<section class="py-5 text-center container" style="background-image: url(image/background-main.jpg); background-size: cover; max-width: 1300px; height: 400px; margin: 0 auto; background-position: center 60%; padding: calc((100% - 400px) / 2) calc((100% - 1300px) / 2);">
+  <div style="position: relative;">
+    <div style="position: absolute; top: 50px; left: 50px; z-index: 1; margin: 30px; background-color: white; border-radius: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 10px;">
+      <strong style="font-size: 30px; margin-left: 20px; margin-right: 20px;">Welcome {{username}}!</strong>
     </div>
-  </section>
+    <!-- 其他内容 -->
+  </div>
+</section>
 
   <div class="album py-5 bg-body-tertiary">
-    <div class="container" id = "courseList">
+    <div class="container">
       <div class="row row-cols-3 g-3">
         <div class="col" v-for="course in courses">
           <div class="card shadow-sm">
@@ -123,6 +124,8 @@
       </div>
     </div>
   </div>
+
+</div>
 
 </main>
 
@@ -156,28 +159,22 @@
     logout();
   });
 
+  document.getElementById("cart-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    window.location.href = "http://localhost:8080/cart.html";
+  });
+
   new Vue({
     el: '#courseList',
     data() {
       return {
+        username: '',
         courses: []
       }
     },
     methods: {
       fetchCourses() {
-        const token = getCookie('token');
-        if (!token) {
-          console.log('JWT token not found in the cookie.');
-          window.location.href = 'http://localhost:8080/login.html';
-        }
         var _this = this;
-        // axios({
-        //   method: 'get',
-        //   url: 'http://localhost:8080/course/list',
-        //   headers: {
-        //     'Authorization': 'Bearer ' + token
-        //   }
-        // })
         axios.get('http://localhost:8080/course/list')
         .then(function (response) {
           console.log(response.data);
@@ -192,15 +189,23 @@
       },
       addToCart(id) {
         var _this = this;
-        axios.get('http://localhost:8080/course/add-to-cart?id=' + id)
+        axios.put('http://localhost:8080/cart',{
+          username: _this.username,
+          courseId: id,
+          delete: '0'
+        })
         .then(function (response) {
           console.log(response.data);
-          _this.courses = response.data;
         });
       }
     },
     mounted(){
-      console.log("Vue component created");
+      const token = getCookie('token');
+      if (!token) {
+        console.log('JWT token not found in the cookie.');
+        window.location.href = 'http://localhost:8080/login.html';
+      }
+      this.username = sessionStorage.getItem("username");
       this.fetchCourses();
     }
   });

@@ -80,6 +80,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     // add token to response header
     response.setHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+    response.setHeader("role", String.join(",", roles));
   }
 
   @Override

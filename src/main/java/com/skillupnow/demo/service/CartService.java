@@ -52,10 +52,11 @@ public class CartService {
       // course should be in the cart
       if (!cart.getCourses().contains(course)) throw new SkillUpNowException("Course not in the cart");
       cart.removeCourse(course);
+    } else {
+      // if is addition, add the course to the cart;
+      if (cart.getCourses().contains(course)) return cart;
+      cart.addCourse(course);
     }
-    // if is addition, add the course to the cart;
-    if (cart.getCourses().contains(course)) return cart;
-    cart.addCourse(course);
 
     return cartRepository.save(cart);
   }
