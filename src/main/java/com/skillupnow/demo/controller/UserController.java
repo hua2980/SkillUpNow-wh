@@ -106,8 +106,8 @@ public class UserController {
     return ResponseEntity.ok().body(customerService.findByUsername(currentUsername));
   }
 
-  @PutMapping("/customer/profile")
-  public ResponseEntity<ModifyCustomerRequest> updateCustomerProfile(@RequestBody @Validated(ValidationGroups.Update.class)
+  @PutMapping("/customer")
+  public ResponseEntity<ModifyCustomerRequest> updateCustomerInfo(@RequestBody @Validated(ValidationGroups.Update.class)
   ModifyCustomerRequest modifyCustomerRequest) {
     // Get current authenticated user
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -121,6 +121,8 @@ public class UserController {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();
     userService.updateCredential(modifyCredentialRequest, currentUsername);
+    modifyCredentialRequest.setConfirmPassword(null);
+    modifyCredentialRequest.setNewPassword(null);
     return ResponseEntity.ok().body(modifyCredentialRequest);
   }
 }

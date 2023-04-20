@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--  <script src="../assets/js/color-modes.js"></script>-->
+  <link rel="icon" href="image/my-icon.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Hua Wang">
+  <meta name="generator" content="Hugo 0.111.3">
+
+  <link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css">
+
+  <title>Cart</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
+
+  <style>
+    .total-price-card {
+      position: sticky;
+      top: 20px; /* 距离窗口顶部的距离 */
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+
+</head>
+
+<script src="https://unpkg.com/vue@next"></script>
+
+<body>
+<!--some icons...-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bag" viewBox="0 0 24 16">
+    <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5ZM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1Zm0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+  </symbol>
+  <symbol id="logout" viewBox="0 0 24 16">
+    <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+  </symbol>
+  <symbol id="home" viewBox="0 0 16 16">
+    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+  </symbol>
+</svg>
+
+
+<!--cart and logout-->
+<header data-bs-theme="dark">
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-end align-items-center">
+      <div class="d-flex">
+        <a href="#" class="navbar-brand d-flex align-items-center" id="cart-link">
+          <svg class="bi bi-bag-heart-fill" width="30" height="30" fill="currentColor"><use href="#bag"></use></svg>
+          <strong>Cart</strong>
+        </a>
+        <a href="#" class="navbar-brand d-flex align-items-center" id="logout-link">
+          <svg width="40" height="40" fill="currentColor" class="bi bi-box-arrow-in-right"><use href="#logout"></use></svg>
+          <strong>Log Out</strong>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="customer">
+    <div class="container my-3">
+<!--      sidebar for navigation-->
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: activeTab === 'profile'}" @click="activeTab = 'profile'">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: activeTab === 'account-security' }" @click="activeTab = 'account-security'">Account Security</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Payment methods</a>
+        </li>
+      </ul>
+
+      <div class="d-flex justify-content-center">
+      <div class="col-md-9 mt-4">
+        <!--form for modifying user Profile-->
+        <div v-if="activeTab === 'profile'" class="mt-lg-5 mb-4">
+          <form>
+            <div class="row g-2 d-flex justify-content-center border py-5" style="border-radius: 10px; border-color: #E0E0E0;">
+              <div class="col-md-7 m-3">
+                <label for="firstname" class="form-label">Firstname</label>
+                <input type="text" class="form-control" id="firstname"
+                        placeholder="firstname" v-model="customerProfile.firstname">
+              </div>
+
+              <div class="col-md-7 m-3">
+                <label for="lastname" class="form-label">Lastname</label>
+                <input type="text" class="form-control" id="lastname"
+                       placeholder="lastname" v-model="customerProfile.lastname">
+              </div>
+
+              <div class="col-md-7 m-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email"
+                       placeholder="email" v-model="customerProfile.email">
+              </div>
+
+              <div class="col-md-7 m-3">
+                <label for="headline" class="form-label">Headline</label>
+                <input type="text" class="form-control" id="headline"
+                       placeholder="headline" v-model="customerProfile.headline">
+              </div>
+              <p></p>
+              <button class="btn btn-dark col-md-6" type="submit" v-on:click.prevent="submitProfile()"><strong>Submit</strong></button>
+            </div>
+          </form>
+        </div>
+
+        <!--form for modifying account security-->
+        <div v-if="activeTab === 'account-security'" class="mt-lg-5 mb-4">
+          <form>
+            <div class="row g-2 d-flex justify-content-center border py-5" style="border-radius: 10px; border-color: #E0E0E0;">
+              <div class="col-md-7 m-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username"
+                       placeholder="username" v-model="userCredential.username">
+              </div>
+
+              <div class="col-md-7 m-3">
+                <label for="newPassword" class="form-label">New password</label>
+                <input type="password" class="form-control" id="newPassword"
+                       placeholder="new password" v-model="userCredential.newPassword">
+              </div>
+
+              <div class="col-md-7 m-3">
+                <label for="confirmPassword" class="form-label">Confirm your password</label>
+                <input type="password" class="form-control" id="confirmPassword"
+                       placeholder="confirm password" v-model="userCredential.confirmPassword">
+              </div>
+
+              <p></p>
+              <button class="btn btn-dark col-md-6" type="submit" v-on:click.prevent="submitCredential()"><strong>Submit</strong></button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      </div>
+
+      <!--table of orders-->
+
+    </div>
+  </div>
+</main>
+
+<footer class="text-body-secondary py-5">
+  <div class="container">
+    <p class="float-end mb-1">
+      <a href="#">Back to top</a>
+    </p>
+    <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+    <p class="mb-0">New to Bootstrap? <a href="/static">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+  </div>
+</footer>
+
+<script href="js/bootstrap.bundle.min.js"></script>
+
+<script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+  function logout() {
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    console.log("logout");
+    window.location.href = "login.html";
+  }
+
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    logout();
+  });
+
+  document.getElementById("cart-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    window.location.href = "cart.html";
+  });
+
+  new Vue({
+    el: '.customer',
+    data() {
+      return {
+        activeTab: 'profile',
+        customerProfile: {
+          firstname: '',
+          lastname: '',
+          email: '',
+          headline: ''
+        },
+        userCredential: {
+          username: '',
+          newPassword: '',
+          confirmPassword: ''
+        }
+      }
+    },
+    methods: {
+      fetchCustomerProfile() {
+        var _this = this;
+        axios.get('http://localhost:8080/customer')
+          .then(response => {
+            _this.customerProfile = response.data;
+          })
+          .catch(error => {
+            alert("Error: " + error);
+          })
+      },
+      submitProfile() {
+        var _this = this;
+        axios.put('http://localhost:8080/customer', _this.customerProfile)
+          .then(response => {
+            alert("Profile updated successfully!");
+            _this.customerProfile = response.data;
+          })
+          .catch(error => {
+            alert("Error: " + error);
+            console.log(error);
+          })
+      },
+      submitCredential() {
+        var _this = this;
+        axios.put('http://localhost:8080/user/credential', _this.userCredential)
+          .then(response => {
+            console.log(response.data);
+            alert("Credential updated successfully!");
+            _this.userCredential = response.data;
+          })
+          .catch(error => {
+            alert("Error: " + error);
+            console.log(error);
+          })
+      }
+    },
+    mounted(){
+      const token = getCookie('token');
+      if (!token) {
+        console.log('JWT token not found in the cookie.');
+        window.location.href = 'http://localhost:8080/login.html';
+      }
+      this.userCredential.username = getCookie('username');
+      this.fetchCustomerProfile();
+    }
+  })
+
+</script>
+
+</body>
+</html>

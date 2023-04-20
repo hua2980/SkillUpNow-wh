@@ -9,10 +9,10 @@ VALUES
     (1, 0, 0),
     (2, 0, 0);
 
-INSERT INTO customer (id, cart_id)
+INSERT INTO customer (id, cart_id, firstname, lastname)
 VALUES
-    (1, 1),
-    (3, 2);
+    (1, 1, 'Irene', 'Cai'),
+    (3, 2, 'Rachel', 'Wang');
 
 INSERT INTO organization (id, organization_name)
 VALUES
