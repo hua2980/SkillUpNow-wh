@@ -88,7 +88,7 @@
 
 <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+<script src="js/main.js"></script>
 <script>
   new Vue({
     el: '#signup',
@@ -116,14 +116,9 @@
               response.headers.authorization.replace('Bearer ', '')) + '; path=/;';
           console.log(document.cookie)
 
-          // redirect to pages based on user type
-          var role = response.data.userType;
-          sessionStorage.setItem("username", _this.signupForm.username);
-          if (role === 'CUSTOMER')
-            window.location.href = 'http://localhost:8080/home.html';
-          else if (role === 'ORGANIZATION') {
-            window.location.href = '/organization.html';
-          }
+          // redirect to the home page
+          document.cookie = "username=" + _this.loginForm.username + "; path=/;";
+          window.location.href = 'http://localhost:8080/home.html';
         })
         .catch(function (error) {
           console.log(error);
@@ -132,6 +127,13 @@
       },
       login: function () {
         window.location.href = 'http://localhost:8080/login.html';
+      }
+    },
+    mounted(){
+      const token = getCookie('token');
+      const username = getCookie('username');
+      if (token != null && username != null){
+        window.location.href = 'http://localhost:8080/home.html';
       }
     }
   })

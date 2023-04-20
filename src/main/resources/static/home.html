@@ -209,7 +209,7 @@
         console.log('JWT token not found in the cookie.');
         window.location.href = 'http://localhost:8080/login.html';
       }
-      this.username = sessionStorage.getItem("username");
+      this.username = getCookie('username');
       this.fetchCourses();
     }
   });

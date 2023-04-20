@@ -92,16 +92,10 @@
         axios.post('http://localhost:8080/login', _this.loginForm)
         .then(function (response) {
           console.log(response);
-          // _this.loginForm = response.data;
           document.cookie = 'token=' + encodeURIComponent(
               response.headers.authorization.replace('Bearer ', '')) + '; path=/;';
-          var role = response.headers.role;
-          sessionStorage.setItem("username", _this.loginForm.username);
-          if (role === 'CUSTOMER')
-            window.location.href = '/home.html';
-          else if (role === 'ORGANIZATION') {
-            window.location.href = '/organization.html';
-          }
+          document.cookie = "username=" + _this.loginForm.username + "; path=/;";
+          window.location.href = '/home.html';
         })
         .catch(function (error) {
           console.log(error);
@@ -110,6 +104,13 @@
       },
       signup: function () {
         window.location.href = 'http://localhost:8080/signup.html';
+      }
+    },
+    mounted(){
+      const token = getCookie('token');
+      const username = getCookie('username');
+      if (token != null && username != null){
+        window.location.href = 'http://localhost:8080/home.html';
       }
     }
   })
