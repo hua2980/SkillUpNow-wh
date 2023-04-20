@@ -120,38 +120,7 @@ public class UserController {
   public ResponseEntity<ModifyCredentialRequest> updateCredential(@RequestBody @Validated(ValidationGroups.Update.class) ModifyCredentialRequest modifyCredentialRequest) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();
-    User user = userService.updateCredential(modifyCredentialRequest, currentUsername);
-    if (user == null) {
-      throw new SkillUpNowException("Update credential failed");
-    }
+    userService.updateCredential(modifyCredentialRequest, currentUsername);
     return ResponseEntity.ok().body(modifyCredentialRequest);
   }
-
-//  @PutMapping("/user-credentials")
-//  public ResponseEntity<User> updateUserCredentials(@RequestBody @Validated(ValidationGroups.Update.class)
-//      ModifyUserRequest modifyUserRequest) {
-////    Long id = modifyUserRequest.getId();
-////    // Get current authenticated user
-////    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-////    String currentUsername = authentication.getName();
-////    User currentUser = userRepository.findByUsername(currentUsername);
-////
-////    // Check if current user is the same as the user to be updated
-////    if (! currentUser.getId().equals(id)) {
-////      throw new SkillUpNowException("You can only update your own information");
-////    }
-////
-////    // user to be updated must exist
-////    Optional<User> user = userRepository.findById(id);
-////    if (! user.isPresent()) {
-////      throw new SkillUpNowException("User not found");
-////    }
-////
-////    User existedUser = user.get();
-////    BeanUtils.copyProperties(modifyUserRequest, existedUser);
-////    existedUser = userRepository.save(existedUser);
-////    User returnedUser = new User();
-////    BeanUtils.copyProperties(existedUser, returnedUser, "password");
-////    return ResponseEntity.ok().body(returnedUser);
-//  }
 }

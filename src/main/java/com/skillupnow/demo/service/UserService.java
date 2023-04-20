@@ -26,7 +26,11 @@ public class UserService {
     User user = userRepository.findByUsername(currentUsername);
     user.setUsername(modifyCredentialRequest.getUsername());
     user.setPassword(modifyCredentialRequest.getNewPassword());
-    return userRepository.save(user);
+    User savedUser = userRepository.save(user);
+    if (savedUser.getId() == null){
+      throw new SkillUpNowException("User not saved");
+    }
+    return savedUser;
   }
 
 }
