@@ -46,9 +46,6 @@ public class User implements Serializable {
   @Column(name = "email")
   String email;
 
-  @JsonProperty
-  @Column(name = "headline")
-  String headline;
 
   public User() {
   }
@@ -97,13 +94,5 @@ public class User implements Serializable {
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public String getHeadline() {
-    return headline;
-  }
-
-  public void setHeadline(String headline) {
-    this.headline = headline;
   }
 }
