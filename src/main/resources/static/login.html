@@ -64,6 +64,8 @@
     </div>
     <p></p>
     <button class="w-100 btn btn-lg btn-primary" type="submit" v-on:click.prevent="login()">Log in</button>
+    <p></p>
+    <button class="w-100 btn btn-lg btn-secondary" type="submit" v-on:click.prevent="signup()">Sign up</button>
 <!--    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>-->
   </form>
 </main>
@@ -88,26 +90,26 @@
           return;
         }
         axios.post('http://localhost:8080/login', _this.loginForm)
-          .then(function (response) {
-            console.log(response);
-            // _this.loginForm = response.data;
-            document.cookie = 'token=' + encodeURIComponent(response.headers.authorization.replace('Bearer ', '')) + '; path=/;';
-            // if (_this.loginForm.userType === 'CUSTOMER')
-            //   window.location.href = '/home.html';
-            // else if (_this.loginForm.userType === 'ORGANIZATION') {
-            //   window.location.href = '/organization.html';
-            // }
-            var role = response.headers.role;
-            sessionStorage.setItem("username", _this.loginForm.username);
-            if (role === 'CUSTOMER')
-              window.location.href = '/home.html';
-            else if (role === 'ORGANIZATION') {
-              window.location.href = '/organization.html';
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        .then(function (response) {
+          console.log(response);
+          // _this.loginForm = response.data;
+          document.cookie = 'token=' + encodeURIComponent(
+              response.headers.authorization.replace('Bearer ', '')) + '; path=/;';
+          var role = response.headers.role;
+          sessionStorage.setItem("username", _this.loginForm.username);
+          if (role === 'CUSTOMER')
+            window.location.href = '/home.html';
+          else if (role === 'ORGANIZATION') {
+            window.location.href = '/organization.html';
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert(error.response.data.errMessage);
+        });
+      },
+      signup: function () {
+        window.location.href = 'http://localhost:8080/signup.html';
       }
     }
   })

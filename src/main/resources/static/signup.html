@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <link rel="icon" href="image/my-icon.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Hua Wang">
+  <meta name="generator" content="Hugo 0.111.3">
+  <title>Sign up for Skill Up Now!</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+
+  <link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css">
+
+  <style>
+    #signup {
+      width: 500px; /* 设置表单宽度 */
+      margin: auto; /* 设置水平居中 */
+      /* 可以添加其他样式属性以改变表单外观和感觉 */
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="css/sign-in.css" rel="stylesheet">
+
+</head>
+
+<script src="https://unpkg.com/vue@next"></script>
+
+<body class="text-center">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="signup-logo" viewBox="0 0 16 20">
+    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+  </symbol>
+  <!--      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">-->
+  <!--        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>-->
+  <!--        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>-->
+  <!--      </svg>-->
+</svg>
+
+<main id="signup">
+  <form>
+    <svg>
+      <use href="#signup-logo"></use>
+    </svg>
+    <h1 class="h3 mb-3 fw-normal">Create new account</h1>
+    <div class="form-floating">
+      <input v-model="signupForm.username" type="text" class="form-control" id="floatingInput" placeholder="Username">
+      <label for="floatingInput">username</label>
+    </div>
+    <div class="form-floating">
+      <input v-model="signupForm.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+    <div class="form-floating">
+      <input v-model="signupForm.confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+      <label for="confirmPassword">Confirm Password</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="customer" value="CUSTOMER" v-model="signupForm.userType" checked>
+      <label class="form-check-label" for="customer">
+        Customer
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" value="ORGANIZATION" v-model="signupForm.userType" id="organization">
+      <label class="form-check-label" for="organization">
+        Organization
+      </label>
+    </div>
+
+    <p></p>
+    <button class="w-100 btn btn-lg btn-primary" type="submit" v-on:click.prevent="signup()">Sign up</button>
+    <p></p>
+    <button class="w-100 btn btn-lg btn-secondary" type="submit" v-on:click.prevent="login()">Already have an account</button>
+  </form>
+</main>
+
+<script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+  new Vue({
+    el: '#signup',
+    data: {
+      signupForm: {
+        username: '',
+        password: '',
+        confirmPassword: '',
+        userType: ''
+      }
+    },
+    methods: {
+      signup: function () {
+        var _this = this;
+        if (!_this.signupForm.username || !_this.signupForm.password || !_this.signupForm.confirmPassword){
+          alert('Please fill in all fields.');
+          return;
+        }
+        axios.post('http://localhost:8080/signup', _this.signupForm)
+        .then(function (response) {
+          console.log(response);
+
+          // save token to cookie
+          document.cookie = 'token=' + encodeURIComponent(
+              response.headers.authorization.replace('Bearer ', '')) + '; path=/;';
+          console.log(document.cookie)
+
+          // redirect to pages based on user type
+          var role = response.data.userType;
+          sessionStorage.setItem("username", _this.signupForm.username);
+          if (role === 'CUSTOMER')
+            window.location.href = 'http://localhost:8080/home.html';
+          else if (role === 'ORGANIZATION') {
+            window.location.href = '/organization.html';
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert(error.response.data.errMessage);
+        });
+      },
+      login: function () {
+        window.location.href = 'http://localhost:8080/login.html';
+      }
+    }
+  })
+</script>
+
+</body>
+</html>

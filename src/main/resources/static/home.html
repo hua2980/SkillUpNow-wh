@@ -124,7 +124,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 </main>
@@ -196,6 +195,11 @@
         })
         .then(function (response) {
           console.log(response.data);
+          alert("Added to cart successfully!");
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert("Failed to add to cart!");
         });
       }
     },

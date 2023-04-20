@@ -28,7 +28,7 @@ public class CartService {
     if (customer == null) {
       throw new SkillUpNowException("Customer not found");
     }
-    return cartRepository.findByCustomer(customer);
+    return cartRepository.findById(customer.getCart().getId()).orElse(null);
   }
 
   @Transactional
