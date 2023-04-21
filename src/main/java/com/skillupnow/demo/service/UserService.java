@@ -20,7 +20,7 @@ public class UserService {
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Transactional
-  public User updateCredential(ModifyCredentialRequest modifyCredentialRequest,
+  public void updateCredential(ModifyCredentialRequest modifyCredentialRequest,
       String currentUsername){
     if (!modifyCredentialRequest.getNewPassword().equals(modifyCredentialRequest.getConfirmPassword())){
       throw new SkillUpNowException("Password does not match");
@@ -29,15 +29,21 @@ public class UserService {
       throw new SkillUpNowException("Username already exists");
     }
     User user = userRepository.findByUsername(currentUsername);
+
+    // Check if current username and password both matches the modification request
+    if (user.getUsername().equals(modifyCredentialRequest.getUsername()) &&
+        bCryptPasswordEncoder.matches(modifyCredentialRequest.getNewPassword(), user.getPassword())) {
+      throw new SkillUpNowException("Both username and password are the same as before");
+    }
+
     user.setUsername(modifyCredentialRequest.getUsername());
     user.setPassword(bCryptPasswordEncoder.encode(modifyCredentialRequest.getNewPassword()));
     User savedUser = userRepository.save(user);
-    if (savedUser.getId() == null){
-      throw new SkillUpNowException("User not saved");
+    // Check if the username and password have been updated successfully
+    if (!savedUser.getUsername().equals(modifyCredentialRequest.getUsername()) ||
+        !bCryptPasswordEncoder.matches(modifyCredentialRequest.getNewPassword(), savedUser.getPassword())) {
+      throw new SkillUpNowException("User not updated");
     }
-    User returnUser = new User();
-    BeanUtils.copyProperties(savedUser, returnUser, "password");
-    return savedUser;
   }
 
 }

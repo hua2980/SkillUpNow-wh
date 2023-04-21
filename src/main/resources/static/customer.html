@@ -302,7 +302,8 @@
           .then(response => {
             console.log(response.data);
             alert("Credential updated successfully!");
-            _this.userCredential = response.data;
+            // once the credential is updated, the user needs to log in again
+            logout();
           })
           .catch(error => {
             alert(error.response.data.errMessage);
