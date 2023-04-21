@@ -28,6 +28,17 @@ public class CreateUserRequest {
   @JsonProperty
   private String password;
 
+  public CreateUserRequest() {
+  }
+
+  public CreateUserRequest(UserType userType, String confirmPassword, String username,
+      String password) {
+    this.userType = userType;
+    this.confirmPassword = confirmPassword;
+    this.username = username;
+    this.password = password;
+  }
+
   public String getConfirmPassword() {
     return confirmPassword;
   }

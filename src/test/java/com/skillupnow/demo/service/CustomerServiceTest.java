@@ -2,7 +2,10 @@ package com.skillupnow.demo.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.skillupnow.demo.model.UserType;
+import com.skillupnow.demo.model.dto.CreateUserRequest;
 import com.skillupnow.demo.model.dto.ModifyCustomerRequest;
+import com.skillupnow.demo.model.po.Cart;
 import com.skillupnow.demo.model.po.Customer;
 import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.repository.UserRepository;
@@ -15,6 +18,17 @@ public class CustomerServiceTest {
 
   @Autowired
   CustomerService customerService;
+
+  @Test
+  public void testCreateCustomer() {
+    CreateUserRequest createUserRequest = new CreateUserRequest(UserType.CUSTOMER, "12345678", "Test", "12345678");
+    customerService.createCustomer(createUserRequest);
+    Customer customer = customerService.findByUsername("Test");
+    assertEquals("Test", customer.getUsername());
+    Cart cart = customer.getCart();
+    assertEquals(3, cart.getId());
+    assertEquals(customer.getId(), cart.getCustomer().getId());
+  }
 
   @Test
   public void testUpdateCustomer() {

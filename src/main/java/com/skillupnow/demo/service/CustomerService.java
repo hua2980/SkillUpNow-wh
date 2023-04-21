@@ -57,15 +57,16 @@ public class CustomerService {
     customer.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 
     // write into database
-    User savedUser = customerRepository.save(customer);
-    if (savedUser.getId() == null) {
+    customer = customerRepository.save(customer);
+    if (customer.getId() == null) {
       throw new SkillUpNowException("User not saved");
     }
+    cart.setCustomer(customer);
     cartRepository.save(cart);
 
     // return the saved user and mute the password
     User returnInfo = new User();
-    BeanUtils.copyProperties(savedUser, returnInfo, "password");
+    BeanUtils.copyProperties(customer, returnInfo, "password");
 
     return returnInfo;
   }

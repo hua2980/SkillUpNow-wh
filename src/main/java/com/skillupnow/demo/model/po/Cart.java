@@ -30,7 +30,7 @@ public class Cart implements Serializable {
   we can retrieve the cart data from the user,
   and the user data from the cart.
    */
-  @OneToOne(mappedBy = "cart")
+  @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
   @JsonIgnore
   private Customer customer;
 
@@ -96,6 +96,8 @@ public class Cart implements Serializable {
   public void addCourse(Course course) {
     if (courses == null) {
       courses = new ArrayList<>();
+    }
+    if (courses.isEmpty()) {
       initializeCart();
     }
     courses.add(course);
@@ -104,9 +106,8 @@ public class Cart implements Serializable {
   }
 
   public void removeCourse(Course course) {
-    if (courses == null) {
-      courses = new ArrayList<>();
-      initializeCart();
+    if (courses == null || courses.isEmpty()) {
+      return;
     }
     courses.remove(course);
     total = total.subtract(course.getPrice());
