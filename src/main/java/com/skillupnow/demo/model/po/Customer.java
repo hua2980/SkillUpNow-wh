@@ -10,15 +10,17 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "customer")
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Customer extends User implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -54,48 +56,13 @@ public class Customer extends User implements Serializable {
     super();
   }
 
-  public Cart getCart() {
-    return cart;
-  }
-
-  public void setCart(Cart cart) {
-    this.cart = cart;
-  }
-
-  public String getFirstname() {
-    return firstname;
-  }
-
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
-  public String getLastname() {
-    return lastname;
-  }
-
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
-
-  public String getHeadline() {
-    return headline;
-  }
-
-  public void setHeadline(String headline) {
-    this.headline = headline;
-  }
-
-  public List<Order> getOrders() {
-    return orders;
-  }
-
-  public void setOrders(List<Order> orders) {
-    this.orders = orders;
-  }
-
   public void removeOrder(Order order) {
     if (this.orders == null) this.orders = new ArrayList<Order>();
     else this.orders.remove(order);
+  }
+
+  public void addOrder(Order order) {
+    if (this.orders == null) this.orders = new ArrayList<Order>();
+    else this.orders.add(order);
   }
 }

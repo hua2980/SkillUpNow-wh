@@ -14,9 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "cart")
+@Data
 public class Cart implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -52,46 +54,6 @@ public class Cart implements Serializable {
 
   @JsonProperty
   private BigDecimal originalTotal;
-
-  public BigDecimal getOriginalTotal() {
-    return originalTotal;
-  }
-
-  public void setOriginalTotal(BigDecimal originalTotal) {
-    this.originalTotal = originalTotal;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Customer getCustomer() {
-    return customer;
-  }
-
-  public void setCustomer(Customer customer) {
-    this.customer = customer;
-  }
-
-  public List<Course> getCourses() {
-    return courses;
-  }
-
-  public void setCourses(List<Course> courses) {
-    this.courses = courses;
-  }
-
-  public BigDecimal getTotal() {
-    return total;
-  }
-
-  public void setTotal(BigDecimal total) {
-    this.total = total;
-  }
 
   public void addCourse(Course course) {
     if (courses == null) {

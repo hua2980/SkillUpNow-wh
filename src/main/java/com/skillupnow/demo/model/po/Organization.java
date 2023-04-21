@@ -11,9 +11,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "organization")
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Organization extends User implements Serializable {
   @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
   @JsonIgnore
@@ -36,22 +40,6 @@ public class Organization extends User implements Serializable {
       String organizationName) {
     super(username, password, type);
     this.courses = courses;
-    this.organizationName = organizationName;
-  }
-
-  public List<Course> getCourses() {
-    return courses;
-  }
-
-  public void setCourses(List<Course> courses) {
-    this.courses = courses;
-  }
-
-  public String getOrganizationName() {
-    return organizationName;
-  }
-
-  public void setOrganizationName(String organizationName) {
     this.organizationName = organizationName;
   }
 }

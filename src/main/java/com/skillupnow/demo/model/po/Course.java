@@ -15,9 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "course")
+@Data
 public class Course implements Serializable{
   private static final long serialVersionUID = 1L;
 
@@ -60,78 +62,6 @@ public class Course implements Serializable{
   private List<TeachPlan> teachPlans;
 
   public Course() {
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getCourseType() {
-    return courseType;
-  }
-
-  public void setCourseType(String courseType) {
-    this.courseType = courseType;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getPic() {
-    return pic;
-  }
-
-  public void setPic(String pic) {
-    this.pic = pic;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public void setPrice(BigDecimal price) {
-    this.price = price;
-  }
-
-  public BigDecimal getOriginalPrice() {
-    return originalPrice;
-  }
-
-  public void setOriginalPrice(BigDecimal originalPrice) {
-    this.originalPrice = originalPrice;
-  }
-
-  public List<TeachPlan> getTeachPlans() {
-    return teachPlans;
-  }
-
-  public void setTeachPlans(List<TeachPlan> teachPlans) {
-    this.teachPlans = teachPlans;
-  }
-
-  public Organization getOrganization() {
-    return organization;
-  }
-
-  public void setOrganization(Organization organization) {
-    this.organization = organization;
   }
 
   @JsonProperty("organization_name")

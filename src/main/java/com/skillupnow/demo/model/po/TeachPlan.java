@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "teach_plan")
+@Data
 public class TeachPlan implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -65,61 +67,5 @@ public class TeachPlan implements Serializable {
   }
 
   public TeachPlan() {
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public String getPname() {
-    return pname;
-  }
-
-  public void setPname(String pname) {
-    this.pname = pname;
-  }
-
-  public Long getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(Long parentId) {
-    this.parentId = parentId;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public Integer getOrderBy() {
-    return orderBy;
-  }
-
-  public void setOrderBy(Integer orderBy) {
-    this.orderBy = orderBy;
-  }
-
-  public Short getGrade() {
-    return grade;
-  }
-
-  public void setGrade(Short grade) {
-    this.grade = grade;
-  }
-
-  public Course getCourse() {
-    return course;
-  }
-
-  public void setCourse(Course course) {
-    this.course = course;
   }
 }
