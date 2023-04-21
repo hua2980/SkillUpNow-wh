@@ -5,6 +5,9 @@ function getCookie(name) {
 }
 
 axios.interceptors.request.use((config) => {
+  if (config.url.endsWith('/login') || config.url.endsWith('/signup')) {
+    return config;
+  }
   const token = getCookie('token');
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;

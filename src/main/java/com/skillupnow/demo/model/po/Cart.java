@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -93,29 +94,28 @@ public class Cart implements Serializable {
   }
 
   public void addCourse(Course course) {
-    initializeCart();
+    if (courses == null) {
+      courses = new ArrayList<>();
+      initializeCart();
+    }
     courses.add(course);
     total = total.add(course.getPrice());
     originalTotal = originalTotal.add(course.getOriginalPrice());
   }
 
   public void removeCourse(Course course) {
-    initializeCart();
+    if (courses == null) {
+      courses = new ArrayList<>();
+      initializeCart();
+    }
     courses.remove(course);
     total = total.subtract(course.getPrice());
     originalTotal = originalTotal.subtract(course.getOriginalPrice());
   }
 
-  private void initializeCart() {
-    if(courses == null) {
-      courses = new ArrayList<>();
-    }
-    if (total == null) {
-      total = new BigDecimal(0);
-    }
-    if (originalTotal == null) {
-      originalTotal = new BigDecimal(0);
-    }
+  public void initializeCart() {
+    total = new BigDecimal(0);
+    originalTotal = new BigDecimal(0);
   }
 
   @JsonProperty("username")

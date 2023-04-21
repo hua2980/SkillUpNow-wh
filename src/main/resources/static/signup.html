@@ -89,6 +89,7 @@
 <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="js/main.js"></script>
+
 <script>
   new Vue({
     el: '#signup',
@@ -110,14 +111,12 @@
         axios.post('http://localhost:8080/signup', _this.signupForm)
         .then(function (response) {
           console.log(response);
-
-          // save token to cookie
+          // save token and username to cookie
           document.cookie = 'token=' + encodeURIComponent(
               response.headers.authorization.replace('Bearer ', '')) + '; path=/;';
+          document.cookie = "username=" + response.data.username + "; path=/;";
           console.log(document.cookie)
-
           // redirect to the home page
-          document.cookie = "username=" + _this.loginForm.username + "; path=/;";
           window.location.href = 'http://localhost:8080/home.html';
         })
         .catch(function (error) {

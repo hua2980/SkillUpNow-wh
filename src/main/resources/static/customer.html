@@ -53,7 +53,11 @@
     <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
   </symbol>
   <symbol id="home" viewBox="0 0 16 16">
-    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+    <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
+  </symbol>
+  <symbol id="customer" viewBox="0 0 16 16">
+    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
   </symbol>
 </svg>
 
@@ -61,8 +65,16 @@
 <!--cart and logout-->
 <header data-bs-theme="dark">
   <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="d-flex justify-content-start align-items-center">
+      <a href="#" class="navbar-brand d-flex align-items-center" id="home-link" style="margin-left: 50px">
+        <svg class="bi bi-house-door-fill" width="30" height="30" fill="currentColor"><use href="#home"></use></svg>
+      </a>
+    </div>
     <div class="container d-flex justify-content-end align-items-center">
       <div class="d-flex">
+        <a href="#" class="navbar-brand d-flex align-items-center" id="customer-link">
+          <svg class="bi me-2" width="30" height="30" fill="currentColor"><use href="#customer"></use></svg>
+        </a>
         <a href="#" class="navbar-brand d-flex align-items-center" id="cart-link">
           <svg class="bi bi-bag-heart-fill" width="30" height="30" fill="currentColor"><use href="#bag"></use></svg>
           <strong>Cart</strong>
@@ -88,7 +100,7 @@
           <a class="nav-link" :class="{ active: activeTab === 'account-security' }" @click="activeTab = 'account-security'">Account Security</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Orders</a>
+          <a class="nav-link" :class="{ active: activeTab === 'orders' }" v-on:click.prevent="fetchOrders">Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Payment methods</a>
@@ -158,10 +170,40 @@
           </form>
         </div>
 
-      </div>
-      </div>
+        <!--table of orders-->
+        <div v-if="activeTab === 'orders'" class="mt-lg-5 mb-4">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Courses</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Total Price</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in orders">
+                  <td>
+                    <ul>
+                      <li v-for="course in order.courses">{{ course.name }}</li>
+                    </ul>
+                  </td>
+                  <td>{{ order.createTime }}</td>
+                  <td>{{ order.totalPrice }}</td>
+                  <td>
+                      <button class="btn btn-dark" type="submit" v-on:click.prevent="viewReceipt(order.id)"><strong>Receipt</strong></button>
+                  </td>
+                  <td>
+                      <button class="btn btn-dark" type="submit" v-on:click.prevent="deleteOrder(order.id)"><strong>Delete</strong></button>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <!--table of orders-->
+      </div>
+      </div>
 
     </div>
   </div>
@@ -188,7 +230,7 @@
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     console.log("logout");
-    window.location.href = "login.html";
+    window.location.href = "http://localhost:8080/login.html";
   }
 
   document.getElementById("logout-link").addEventListener("click", function(event) {
@@ -198,7 +240,17 @@
 
   document.getElementById("cart-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "cart.html";
+    window.location.href = "http://localhost:8080/cart.html";
+  });
+
+  document.getElementById("customer-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    window.location.href = "http://localhost:8080/customer.html";
+  });
+
+  document.getElementById("home-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    window.location.href = "http://localhost:8080/home.html";
   });
 
   new Vue({
@@ -216,7 +268,8 @@
           username: '',
           newPassword: '',
           confirmPassword: ''
-        }
+        },
+        orders:[]
       }
     },
     methods: {
@@ -249,6 +302,34 @@
             console.log(response.data);
             alert("Credential updated successfully!");
             _this.userCredential = response.data;
+          })
+          .catch(error => {
+            alert("Error: " + error);
+            console.log(error);
+          })
+      },
+      fetchOrders(){
+        var _this = this;
+        axios.get('http://localhost:8080/order')
+          .then(response => {
+            _this.orders = response.data;
+            console.log(_this.orders);
+            _this.activeTab = 'orders';
+          })
+          .catch(error => {
+            alert("Error: " + error);
+          })
+      },
+      deleteOrder(orderId){
+        var _this = this;
+        axios.delete('http://localhost:8080/order/' + orderId)
+          .then(response => {
+            if (response.status === 200){
+              alert("Order deleted successfully!");
+              _this.fetchOrders();
+            } else {
+              alert("Error: " + response.data);
+            }
           })
           .catch(error => {
             alert("Error: " + error);

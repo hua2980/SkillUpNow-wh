@@ -37,3 +37,10 @@ VALUES
     (8, 'Numpy Operations', 3, 2, 'Part of Numpy section of the course!', 4, 3),
     (9, 'Numpy Exercises', 3, 2, 'Part of Numpy section of the course!', 4, 4);
 
+INSERT INTO orders (id, total_price, create_time, customer_id)
+VALUES
+    (1, 16.99, '2023-04-20T03:40:39.348', 1);
+
+INSERT INTO orders_courses (order_id, courses_id)
+VALUES
+    (1, 1);
