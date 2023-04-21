@@ -203,7 +203,7 @@
           _this.courses = response.data;
         })
         .catch(function (error) {
-          console.log(error);
+          alert(error.response.data.errMessage);
         });
       },
       viewCourse(id) {
@@ -222,7 +222,7 @@
         })
         .catch(function (error) {
           console.log(error);
-          alert("Failed to add to cart!");
+          alert(error.response.data.errMessage);
         });
       }
     },

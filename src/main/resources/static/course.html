@@ -226,10 +226,18 @@
         axios.get(`http://localhost:8080/course/info/${courseId}`)
         .then(response => {
           _this.course = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+          alert(error.response.data.errMessage);
         });
         axios.get(`http://localhost:8080/teach-plan/${courseId}/tree-nodes`)
         .then(response => {
           _this.teachPlanTreeNodes = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+          alert(error.response.data.errMessage);
         });
       }
     },

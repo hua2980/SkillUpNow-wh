@@ -207,6 +207,7 @@
           _this.originalTotal = response.data.originalTotal;
         })
         .catch(function (error) {
+          alert(error.response.data.errMessage);
           console.log(error);
         });
       },
@@ -222,6 +223,10 @@
           _this.courses = response.data.courses;
           _this.total = response.data.total;
           _this.originalTotal = response.data.originalTotal;
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert(error.response.data.errMessage);
         });
       },
       checkout (){
@@ -235,7 +240,7 @@
         })
         .catch(function (error) {
           console.log(error);
-          alert(error.data.errMessage);
+          alert(error.response.data.errMessage);
         });
       }
     },

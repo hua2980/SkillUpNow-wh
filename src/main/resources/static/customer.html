@@ -280,7 +280,8 @@
             _this.customerProfile = response.data;
           })
           .catch(error => {
-            alert("Error: " + error);
+            console.log(error);
+            alert(error.response.data.errMessage);
           })
       },
       submitProfile() {
@@ -291,7 +292,7 @@
             _this.customerProfile = response.data;
           })
           .catch(error => {
-            alert("Error: " + error);
+            alert(error.response.data.errMessage);
             console.log(error);
           })
       },
@@ -304,7 +305,7 @@
             _this.userCredential = response.data;
           })
           .catch(error => {
-            alert("Error: " + error);
+            alert(error.response.data.errMessage);
             console.log(error);
           })
       },
@@ -317,22 +318,18 @@
             _this.activeTab = 'orders';
           })
           .catch(error => {
-            alert("Error: " + error);
+            alert(error.response.data.errMessage);
           })
       },
       deleteOrder(orderId){
         var _this = this;
         axios.delete('http://localhost:8080/order/' + orderId)
           .then(response => {
-            if (response.status === 200){
               alert("Order deleted successfully!");
               _this.fetchOrders();
-            } else {
-              alert("Error: " + response.data);
-            }
           })
           .catch(error => {
-            alert("Error: " + error);
+            alert(error.response.data.errMessage);
             console.log(error);
           })
       }
