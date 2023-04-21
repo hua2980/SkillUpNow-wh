@@ -54,8 +54,8 @@ public class CartService {
       cart.removeCourse(course);
     } else {
       // if is addition, add the course to the cart;
-      // TODO: throw exception if the course is already in the cart
-      if (cart.getCourses().contains(course)) return cart;
+      // throw exception if the course is already in the cart
+      if (cart.getCourses().contains(course)) throw new SkillUpNowException("The course is already in your cart");
       cart.addCourse(course);
     }
 
