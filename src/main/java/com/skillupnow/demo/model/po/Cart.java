@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "cart")
@@ -34,6 +35,7 @@ public class Cart implements Serializable {
    */
   @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
   @JsonIgnore
+  @ToString.Exclude
   private Customer customer;
 
   /*

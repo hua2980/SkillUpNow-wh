@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "course")
@@ -59,6 +60,7 @@ public class Course implements Serializable{
 
   @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
   @JsonIgnore
+  @ToString.Exclude
   private List<TeachPlan> teachPlans;
 
   public Course() {

@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Table(name = "customer")
@@ -27,6 +28,7 @@ public class Customer extends User implements Serializable {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "cart_id", referencedColumnName = "id")
   @JsonIgnore
+  @ToString.Exclude
   private Cart cart;
 
   @JsonProperty
@@ -40,6 +42,7 @@ public class Customer extends User implements Serializable {
 
   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
   @JsonIgnore
+  @ToString.Exclude
   private List<Order> orders;
 
   public Customer(String username, String password, UserType userType, Cart cart) {

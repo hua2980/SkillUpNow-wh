@@ -68,4 +68,9 @@ public class TeachPlan implements Serializable {
 
   public TeachPlan() {
   }
+
+  @JsonProperty("course")
+  public String getCourseName() {
+    return course.getName();
+  }
 }
