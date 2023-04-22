@@ -13,11 +13,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "organization")
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class Organization extends User implements Serializable {
   @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
   @JsonIgnore

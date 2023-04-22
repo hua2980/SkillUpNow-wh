@@ -14,12 +14,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Table(name = "cart")
-@Data
+@Getter
+@Setter
 public class Cart implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -35,7 +39,6 @@ public class Cart implements Serializable {
    */
   @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
   @JsonIgnore
-  @ToString.Exclude
   private Customer customer;
 
   /*

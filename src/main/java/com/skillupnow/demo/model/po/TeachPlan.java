@@ -13,10 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "teach_plan")
-@Data
+@Getter
+@Setter
 public class TeachPlan implements Serializable {
   private static final long serialVersionUID = 1L;
 
