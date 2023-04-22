@@ -112,8 +112,8 @@ public class UserController {
     // Get current authenticated user
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();
-    ModifyCustomerRequest returnIfo = customerService.updateCustomer(modifyCustomerRequest, currentUsername);
-    return ResponseEntity.ok().body(returnIfo);
+    customerService.updateCustomer(modifyCustomerRequest, currentUsername);
+    return ResponseEntity.ok().body(modifyCustomerRequest);
   }
 
   @PutMapping("/user/credential")

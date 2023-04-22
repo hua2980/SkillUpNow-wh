@@ -58,9 +58,6 @@ public class CustomerService {
 
     // write into database
     customer = customerRepository.save(customer);
-    if (customer.getId() == null) {
-      throw new SkillUpNowException("User not saved");
-    }
     cart.setCustomer(customer);
     cartRepository.save(cart);
 
@@ -72,7 +69,7 @@ public class CustomerService {
   }
 
   @Transactional
-  public ModifyCustomerRequest updateCustomer(ModifyCustomerRequest modifyCustomerRequest, String username) throws SkillUpNowException {
+  public void updateCustomer(ModifyCustomerRequest modifyCustomerRequest, String username) throws SkillUpNowException {
     // get customer
     Customer customer = customerRepository.findByUsername(username);
     // check if the customer exists
@@ -82,13 +79,6 @@ public class CustomerService {
     // update customer
     BeanUtils.copyProperties(modifyCustomerRequest, customer);
     // write into database
-    Customer savedCustomer = customerRepository.save(customer);
-    if (savedCustomer.getId() == null) {
-      throw new SkillUpNowException("Customer not saved");
-    }
-    // return the saved customer
-    ModifyCustomerRequest returnInfo = new ModifyCustomerRequest();
-    BeanUtils.copyProperties(savedCustomer, returnInfo);
-    return returnInfo;
+    customerRepository.save(customer);
   }
 }
