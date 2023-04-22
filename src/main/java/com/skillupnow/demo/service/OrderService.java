@@ -42,9 +42,6 @@ public class OrderService {
 
     // save the order
     order = orderRepository.save(order);
-    if (order.getId() == null) {
-      throw new SkillUpNowException("Order not saved");
-    }
 
     // clear the cart
     cart.setCourses(null);
@@ -69,6 +66,9 @@ public class OrderService {
 
   public List<Order> getOrdersByUsername(String username) {
     Customer customer = customerRepository.findByUsername(username);
+    if (customer == null) {
+      throw new SkillUpNowException("Customer not found");
+    }
     return customer.getOrders();
   }
 }

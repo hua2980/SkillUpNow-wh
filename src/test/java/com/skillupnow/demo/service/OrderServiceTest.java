@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 public class OrderServiceTest {
 
   @Autowired
@@ -26,34 +27,55 @@ public class OrderServiceTest {
   @Autowired
   private CustomerService customerService;
 
+  private final String validUsername = "Irene";
+  private final Long validCourseId = 1L;
+
   @Test
-  @Transactional
-  public void testSaveOrder() {
-    ModifyCartRequest request = new ModifyCartRequest("Irene", 1L, 0);
-    cartService.modifyCart(request);
-    Order order = orderService.createOrder(cartService.getCartByUsername("Irene"));
+  public void testCreateOrder() {
+    ModifyCartRequest request = new ModifyCartRequest(validUsername, validCourseId, 0);
+    Cart cart = cartService.modifyCart(request);
+    Customer customer = customerService.findByUsername(validUsername);
+    int originalOrderSize = customer.getOrders().size();
 
-    Cart cart = cartService.getCartByUsername("Irene");
-    Customer customer = customerService.findByUsername("Irene");
-
-    assertNull(cart.getCourses());
-    assertEquals(0.0, cart.getTotal().floatValue(), 0.0001);
-    assertEquals(1, customer.getOrders().size());
-    assertEquals(16.99, customer.getOrders().get(0).getTotalPrice().floatValue(), 0.0001);
-    assertEquals(1L, order.getCourses().get(0).getId());
+    // Normal case
+    Order order = orderService.createOrder(cart);
+    assertNotNull(order);
+    assertNotNull(order.getId());  // having id means it has been successfully saved into the database
+    assertEquals(1, order.getCourses().size());
     assertEquals(16.99, order.getTotalPrice().floatValue(), 0.0001);
+    assertEquals(validUsername, order.getCustomer().getUsername());
+    // cart should be empty after checking out
+    assertNull(cart.getCourses());
+
+    // Edge case: creating an order with an empty cart should throw an exception
+    Exception exception = assertThrows(SkillUpNowException.class, () -> orderService.createOrder(cart));
+    assertEquals("Cart is empty", exception.getMessage());
   }
 
   @Test
-  @Transactional
   void testDeleteOrder() {
-    ModifyCartRequest request = new ModifyCartRequest("Irene", 1L, 0);
-    cartService.modifyCart(request);
-    Order order = orderService.createOrder(cartService.getCartByUsername("Irene"));
+    ModifyCartRequest request = new ModifyCartRequest(validUsername, validCourseId, 0);
+    Cart cart = cartService.modifyCart(request);
+    Order order = orderService.createOrder(cart);
+    Customer customer = customerService.findByUsername(validUsername);
+    int originalOrderSize = customer.getOrders().size();
 
+    // Normal case
     orderService.deleteOrder(order.getId());
+    assertEquals(originalOrderSize-1, customer.getOrders().size());
 
-    Customer customer = customerService.findByUsername("Irene");
-    assertEquals(0, customer.getOrders().size());
+    // Edge case: deleting an order that does not exist should throw an exception
+    Exception exception = assertThrows(SkillUpNowException.class, () -> orderService.deleteOrder(order.getId()));
+    assertEquals("Order not found", exception.getMessage());
+  }
+
+  @Test
+  void testGetOrdersByUsername() {
+    // Normal case
+    assertEquals(1, orderService.getOrdersByUsername(validUsername).size());
+
+    // Edge case: username does not exist
+    Exception exception = assertThrows(SkillUpNowException.class, () -> orderService.getOrdersByUsername("InvalidUser"));
+    assertEquals("Customer not found", exception.getMessage());
   }
 }
