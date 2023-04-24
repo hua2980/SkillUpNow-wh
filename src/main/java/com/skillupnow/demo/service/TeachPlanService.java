@@ -1,5 +1,6 @@
 package com.skillupnow.demo.service;
 
+import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.dto.TeachPlanTreeDto;
 import com.skillupnow.demo.model.po.Course;
 import com.skillupnow.demo.model.po.TeachPlan;
@@ -23,7 +24,10 @@ public class TeachPlanService {
   private CourseRepository courseRepository;
 
   public List<TeachPlanTreeDto> getTeachPlanTreeByCourseId(Long courseId) {
-    Course course = courseRepository.findById(courseId).orElseThrow(null);
+    Course course = courseRepository.findById(courseId).orElse(null);
+    if (course == null) {
+      throw new SkillUpNowException("Course not found");
+    }
     List<TeachPlan> teachPlans = teachPlanRepository.findByCourse(course);
     return buildTree(teachPlans);
   }

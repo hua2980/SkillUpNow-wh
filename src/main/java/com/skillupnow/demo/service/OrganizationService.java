@@ -48,9 +48,6 @@ public class OrganizationService {
 
     // write into database
     User savedUser = organizationRepository.save(organization);
-    if (savedUser.getId() == null) {
-      throw new SkillUpNowException("User not saved");
-    }
 
     // return the saved user and mute the password
     User returnInfo = new User();

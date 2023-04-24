@@ -25,7 +25,7 @@ public class Organization extends User implements Serializable {
   @JsonIgnore
   private List<Course> courses;
 
-  @Column(name = "organization_name", nullable = false)
+  @Column
   @JsonProperty
   private String organizationName;
 
