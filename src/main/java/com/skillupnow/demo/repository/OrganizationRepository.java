@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
-  @Query("SELECT o FROM Organization o WHERE o.username = ?1")
   Organization findByUsername(String username);
 }
