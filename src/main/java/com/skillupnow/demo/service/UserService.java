@@ -25,7 +25,7 @@ public class UserService {
     if (!modifyCredentialRequest.getNewPassword().equals(modifyCredentialRequest.getConfirmPassword())){
       throw new SkillUpNowException("Password does not match");
     }
-    if (!Objects.equals(modifyCredentialRequest.getUsername(), currentUsername) && userRepository.findByUsername(currentUsername)!= null){
+    if (userRepository.findByUsername(modifyCredentialRequest.getUsername())!= null && !Objects.equals(modifyCredentialRequest.getUsername(), currentUsername)){
       throw new SkillUpNowException("Username already exists");
     }
     User user = userRepository.findByUsername(currentUsername);
@@ -38,12 +38,7 @@ public class UserService {
 
     user.setUsername(modifyCredentialRequest.getUsername());
     user.setPassword(bCryptPasswordEncoder.encode(modifyCredentialRequest.getNewPassword()));
-    User savedUser = userRepository.save(user);
-    // Check if the username and password have been updated successfully
-    if (!savedUser.getUsername().equals(modifyCredentialRequest.getUsername()) ||
-        !bCryptPasswordEncoder.matches(modifyCredentialRequest.getNewPassword(), savedUser.getPassword())) {
-      throw new SkillUpNowException("User not updated");
-    }
+    userRepository.save(user);
   }
 
 }
