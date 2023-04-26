@@ -3,8 +3,13 @@ package com.skillupnow.demo.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skillupnow.demo.exception.ValidationGroups;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ModifyCustomerRequest {
   @NotEmpty(message = "firstname must not be empty", groups = {ValidationGroups.Update.class})
   @JsonProperty
@@ -25,41 +30,6 @@ public class ModifyCustomerRequest {
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;
-    this.headline = headline;
-  }
-
-  public ModifyCustomerRequest() {
-  }
-
-  public String getFirstname() {
-    return firstname;
-  }
-
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
-  public String getLastname() {
-    return lastname;
-  }
-
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getHeadline() {
-    return headline;
-  }
-
-  public void setHeadline(String headline) {
     this.headline = headline;
   }
 }

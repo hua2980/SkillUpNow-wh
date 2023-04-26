@@ -7,7 +7,11 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CreateUserRequest {
 
   @NotNull(message = "user type is required", groups = {ValidationGroups.Insert.class})
@@ -39,41 +43,9 @@ public class CreateUserRequest {
     this.password = password;
   }
 
-  public String getConfirmPassword() {
-    return confirmPassword;
-  }
-
-  public void setConfirmPassword(String confirmPassword) {
-    this.confirmPassword = confirmPassword;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public UserType getUserType() {
-    return userType;
-  }
-
-  public void setUserType(UserType userType) {
-    this.userType = userType;
-  }
-
   @AssertTrue(message = "Password and confirm password must match", groups = {
       ValidationGroups.Insert.class})
-  private boolean isPasswordMatch() {
+  public boolean isPasswordMatch() {
     return password.equals(confirmPassword);
   }
 }
