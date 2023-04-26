@@ -30,6 +30,9 @@ public class Organization extends User implements Serializable {
   private String organizationName;
 
   public Organization() {
+    this.userType = UserType.ORGANIZATION;
+    this.courses = new ArrayList<>();
+    this.organizationName = "default";
   }
 
   public Organization(String username, String password, UserType type) {

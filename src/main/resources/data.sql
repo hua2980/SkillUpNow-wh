@@ -1,8 +1,8 @@
 INSERT INTO user (id, username, password, user_type)
 VALUES
-    (1, 'Irene', '$2a$10$mankHSFMTbgMyY8fJEUrT.Ci3LhDXRHunbk1KTu1OjuPeMSn/QQBe', 'CUSTOMER'),
+    (1, 'hua0837', '$2a$10$mankHSFMTbgMyY8fJEUrT.Ci3LhDXRHunbk1KTu1OjuPeMSn/QQBe', 'CUSTOMER'),
     (2, 'learn365', '$2a$10$eZlcSIy9UQmc3I8iFSyrLO0ikv2kONNIq5xuwU7AKE9taf0K25TA.', 'ORGANIZATION'),
-    (3, 'Rachel', '$2a$10$PpmsF0Uyf7e5xKT4SJyM/OPlV2BQASj8QX0FMludy7KKoNFaDdBAK', 'CUSTOMER');
+    (3, 'Ocelia', '$2a$10$PpmsF0Uyf7e5xKT4SJyM/OPlV2BQASj8QX0FMludy7KKoNFaDdBAK', 'CUSTOMER');
 
 INSERT INTO cart (id, total, original_total)
 VALUES
@@ -11,8 +11,8 @@ VALUES
 
 INSERT INTO customer (id, cart_id, firstname, lastname)
 VALUES
-    (1, 1, 'Irene', 'Cai'),
-    (3, 2, 'Rachel', 'Wang');
+    (1, 1, 'Hua', 'Wang'),
+    (3, 2, 'Xinjia', 'Zhang');
 
 INSERT INTO organization (id, organization_name)
 VALUES
