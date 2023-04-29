@@ -39,6 +39,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
+/**
+ * The UserController class provides a RESTful API for managing users.
+ * This includes creating a new user, retrieving user information, updating customer information, and updating user credentials.
+ * Authentication is required for accessing some endpoints.
+ * Exceptions thrown by UserService (either CustomerService or CompanyService) will be handled by ExceptionHandler.
+ *
+ * @author Hua Wang
+ */
 @RestController
 public class UserController {
   @Autowired
@@ -53,6 +61,12 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  /**
+   * Creates a new user.
+   *
+   * @param createUserRequest The CreateUserRequest object containing the new user's information.
+   * @return A ResponseEntity containing the newly created User object and an authorization token in the response header.
+   */
   @PostMapping("/signup")
   public ResponseEntity<User> createUser(@RequestBody @Validated(ValidationGroups.Insert.class) CreateUserRequest createUserRequest) {
     // Exceptions thrown by UserService (either CustomerService or CompanyService) will be handled by ExceptionHandler
@@ -90,14 +104,11 @@ public class UserController {
     return headers;
   }
 
-  @GetMapping("/organization")
-  public ResponseEntity<Organization> getOrganizationInfo() {
-    // Get current authenticated user
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUsername = authentication.getName();
-    return ResponseEntity.ok().body(organizationService.findByUsername(currentUsername));
-  }
-
+  /**
+   * Retrieves customer information for the current authenticated user.
+   *
+   * @return A ResponseEntity containing the Customer object.
+   */
   @GetMapping("/customer")
   public ResponseEntity<Customer> getCustomerInfo() {
     // Get current authenticated user
@@ -106,6 +117,11 @@ public class UserController {
     return ResponseEntity.ok().body(customerService.findByUsername(currentUsername));
   }
 
+  /**
+   * Updates customer information for the current authenticated user.
+   * @param modifyCustomerRequest The ModifyCustomerRequest object containing the updated customer information.
+   * @return A ResponseEntity containing the updated ModifyCustomerRequest object.
+   */
   @PutMapping("/customer")
   public ResponseEntity<ModifyCustomerRequest> updateCustomerInfo(@RequestBody @Validated(ValidationGroups.Update.class)
   ModifyCustomerRequest modifyCustomerRequest) {
@@ -116,6 +132,11 @@ public class UserController {
     return ResponseEntity.ok().body(modifyCustomerRequest);
   }
 
+  /**
+   * Updates organization information for the current authenticated user.
+   * @param modifyCredentialRequest The ModifyCredentialRequest object containing the updated organization information.
+   * @return A ResponseEntity containing the updated ModifyCredentialRequest object.
+   */
   @PutMapping("/user/credential")
   public ResponseEntity<ModifyCredentialRequest> updateCredential(@RequestBody @Validated(ValidationGroups.Update.class) ModifyCredentialRequest modifyCredentialRequest) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -17,6 +17,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class contains test cases for the CustomerService class.
+ *
+ * @author Hua Wang
+ */
 @SpringBootTest
 @Transactional
 public class CustomerServiceTest {
@@ -25,14 +30,17 @@ public class CustomerServiceTest {
   CustomerService customerService;
 
   private final String newUsername = "NoSuchCustomer";
-  private final String existedUsername = "Rachel";
+  private final String existedUsername = "hua0837";
 
+  /**
+   * Tests the findByUsername method of the CustomerService class.
+   */
   @Test
   void testFindByUsername() {
     // Normal case
     Customer customer = customerService.findByUsername(existedUsername);
     assertNotNull(customer);
-    assertEquals(3, customer.getId());
+    assertEquals(1, customer.getId());
     assertEquals(existedUsername, customer.getUsername());
     assertNull(customer.getPassword());  // the password in the returning result should be muted!
 
@@ -41,6 +49,9 @@ public class CustomerServiceTest {
     assertEquals("Customer not found", exception.getMessage());
   }
 
+  /**
+   * Tests the createCustomer method of the CustomerService class.
+   */
   @Test
   public void testCreateCustomer() {
     // Normal case
@@ -64,6 +75,9 @@ public class CustomerServiceTest {
     assertEquals("Username already taken", exception.getMessage());
   }
 
+  /**
+   * Tests the updateCustomer method of the CustomerService class.
+   */
   @Test
   public void testUpdateCustomer() {
     // Normal case

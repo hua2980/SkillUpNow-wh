@@ -20,6 +20,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * The Course class is an entity representing a course offered by an organization. It includes
+ * course details such as name, type, description, image, price, original price, and associated
+ * teach plans.
+ *
+ * @author Hua Wang
+ */
 @Entity
 @Table(name = "course")
 @Getter
@@ -66,9 +73,17 @@ public class Course implements Serializable{
   @ToString.Exclude
   private List<TeachPlan> teachPlans;
 
+  /**
+   * Default constructor for the Course class.
+   */
   public Course() {
   }
 
+  /**
+   * Returns the name of the organization offering the course.
+   *
+   * @return The name of the organization offering the course.
+   */
   @JsonProperty("organization_name")
   public String getOrganizationName() {
     return organization.getOrganizationName();

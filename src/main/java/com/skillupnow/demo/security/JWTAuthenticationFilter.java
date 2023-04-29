@@ -27,10 +27,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * JWTAuthenticationFilter is a custom authentication filter for handling user authentication
+ * using JWT (JSON Web Tokens). It extends the UsernamePasswordAuthenticationFilter provided
+ * by Spring Security.
+ *
+ * @author Hua Wang
+ */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
   private AuthenticationManager authenticationManager;
 
+  /**
+   * Constructs a new JWTAuthenticationFilter with the given authentication manager.
+   *
+   * @param authenticationManager the authentication manager
+   */
   public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
 
@@ -38,6 +50,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     setPostOnly(true);
   }
 
+  /**
+   * Attempts to authenticate a user by parsing the user's credentials from the request and
+   * checking the username and password.
+   *
+   * @param request the HttpServletRequest
+   * @param response the HttpServletResponse
+   * @return the Authentication object containing the authenticated user details
+   * @throws AuthenticationException if authentication fails
+   */
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
       HttpServletResponse response) throws AuthenticationException {
@@ -54,6 +75,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
   }
 
+  /**
+   * Called when authentication is successful. Generates a JWT token for the user and adds
+   * it to the response.
+   *
+   * @param request the HttpServletRequest
+   * @param response the HttpServletResponse
+   * @param chain the FilterChain
+   * @param authResult the Authentication object containing the authenticated user details
+   * @throws IOException if an input or output error occurs
+   * @throws ServletException if a servlet-specific error occurs
+   */
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain, Authentication authResult) throws IOException, ServletException {
@@ -83,6 +115,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     response.setHeader("role", String.join(",", roles));
   }
 
+  /**
+   * Called when authentication is unsuccessful. Sets an appropriate error response with a
+   * descriptive error message.
+   *
+   * @param request the HttpServletRequest
+   * @param response the HttpServletResponse
+   * @param failed the AuthenticationException that led to the failure
+   * @throws IOException if an input or output error occurs
+   */
   @Override
   protected void unsuccessfulAuthentication(HttpServletRequest request,
       HttpServletResponse response, AuthenticationException failed)

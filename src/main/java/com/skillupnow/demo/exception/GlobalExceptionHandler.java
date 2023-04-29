@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+
+/**
+ * The GlobalExceptionHandler class provides a global exception handling mechanism for the application.
+ * It catches various exceptions and returns a RestErrorResponse containing error messages to the client.
+ *
+ * @author Hua Wang
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

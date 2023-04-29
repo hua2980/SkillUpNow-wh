@@ -11,6 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class provides services related to user management in the SkillUpNow demo application.
+ */
 @Service
 public class UserService {
   @Autowired
@@ -19,6 +22,16 @@ public class UserService {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+  /**
+   * Updates a user's credentials, including username and password, based on the provided
+   * ModifyCredentialRequest and the current username.
+   *
+   * @param modifyCredentialRequest The request containing the new username and password.
+   * @param currentUsername The current username of the user to be updated.
+   * @throws SkillUpNowException If the new password does not match the confirmation password,
+   *                             the new username already exists, or both the new username
+   *                             and password are the same as the current ones.
+   */
   @Transactional
   public void updateCredential(ModifyCredentialRequest modifyCredentialRequest,
       String currentUsername){

@@ -13,16 +13,27 @@ import javax.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the ModifyCredentialRequest class.
+ *
+ * @author Hua Wang
+ */
 public class ModifyCredentialRequestTest {
   private Validator validator;
   private ModifyCredentialRequest modifyCredentialRequest;
 
+  /**
+   * This method sets up the test environment by initializing the ModifyCredentialRequest and Validator instances.
+   */
   @BeforeEach
   public void setUp() {
     validator = Validation.buildDefaultValidatorFactory().getValidator();
     modifyCredentialRequest = new ModifyCredentialRequest();
   }
 
+  /**
+   * Tests the getter and setter methods of the ModifyCredentialRequest class.
+   */
   @Test
   public void testGettersAndSetters() {
     String username = "testUser";
@@ -36,6 +47,9 @@ public class ModifyCredentialRequestTest {
     assertEquals(password, modifyCredentialRequest.getConfirmPassword());
   }
 
+  /**
+   * Tests the validation methods of the ModifyCredentialRequest class.
+   */
   @Test
   public void testValidationNormalCase(){
     // Normal case: all fields are not empty; password is in the valid format; password and confirm password match
@@ -47,6 +61,9 @@ public class ModifyCredentialRequestTest {
     assertTrue(violations.isEmpty());
   }
 
+  /**
+   * Tests the validation methods of the ModifyCredentialRequest class for size constraints.
+   */
   @Test
   public void testSizeValidation() {
     modifyCredentialRequest.setUsername("testuser");
@@ -67,6 +84,9 @@ public class ModifyCredentialRequestTest {
     assertEquals("password must be between 7 and 20 characters", violation.getMessage());
   }
 
+  /**
+   * Tests the validation methods of the ModifyCredentialRequest class for not empty constraints.
+   */
   @Test
   public void testNotEmptyValidations() {
     modifyCredentialRequest.setUsername("");
@@ -93,6 +113,9 @@ public class ModifyCredentialRequestTest {
     assertTrue(violations.isEmpty());
   }
 
+  /**
+   * Tests the isPasswordMatch method of the ModifyCredentialRequest class.
+   */
   @Test
   void testIsPasswordMatch() {
     String username = "testUser";

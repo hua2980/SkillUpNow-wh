@@ -12,16 +12,27 @@ import javax.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the ModifyCartRequest class.
+ *
+ * @author Hua Wang
+ */
 public class ModifyCartRequestTest {
   private Validator validator;
   private ModifyCartRequest modifyCartRequest;
 
+  /**
+   * This method sets up the test environment by initializing the ModifyCartRequest and Validator instances.
+   */
   @BeforeEach
   public void setUp() {
     validator = Validation.buildDefaultValidatorFactory().getValidator();
     modifyCartRequest = new ModifyCartRequest();
   }
 
+  /**
+   * Tests the getter and setter methods of the ModifyCartRequest class.
+   */
   @Test
   public void testGettersAndSetters() {
     modifyCartRequest.setUsername("testUser");
@@ -33,6 +44,9 @@ public class ModifyCartRequestTest {
     assertEquals(0, modifyCartRequest.getDelete());
   }
 
+  /**
+   * Tests the constructor of the ModifyCartRequest class.
+   */
   @Test
   public void testConstructor() {
     String username = "testUser";
@@ -46,6 +60,9 @@ public class ModifyCartRequestTest {
     assertEquals(delete, modifyCartRequest.getDelete());
   }
 
+  /**
+   * Tests the validation methods of the ModifyCartRequest class.
+   */
   @Test
   public void testValidations() {
     modifyCartRequest.setUsername("");

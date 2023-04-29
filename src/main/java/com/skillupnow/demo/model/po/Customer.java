@@ -45,27 +45,56 @@ public class Customer extends User implements Serializable {
   @JsonIgnore
   private List<Order> orders;
 
+  /**
+   * Constructs a new Customer object with the given parameters.
+   *
+   * @param username The username of the customer.
+   * @param password The password of the customer.
+   * @param userType The user type of the customer.
+   * @param cart     The cart associated with the customer.
+   */
   public Customer(String username, String password, UserType userType, Cart cart) {
     super(username, password, userType);
     this.cart = cart;
   }
 
+  /**
+   * Constructs a new Customer object with the given parameters.
+   *
+   * @param username The username of the customer.
+   * @param password The password of the customer.
+   * @param userType The user type of the customer.
+   */
   public Customer(String username, String password, UserType userType) {
     super(username, password, userType);
     this.cart = new Cart();
   }
 
+  /**
+   * Default constructor for the Customer class.
+   */
   public Customer() {
     super();
   }
 
+  /**
+   * Removes the specified order from the customer's list of orders.
+   *
+   * @param order The order to be removed.
+   */
   public void removeOrder(Order order) {
     if (this.orders == null) this.orders = new ArrayList<Order>();
     else this.orders.remove(order);
   }
 
+  /**
+   * Adds the specified order to the customer's list of orders.
+   *
+   * @param order The order to be added.
+   */
+
   public void addOrder(Order order) {
     if (this.orders == null) this.orders = new ArrayList<Order>();
-    else this.orders.add(order);
+    this.orders.add(order);
   }
 }

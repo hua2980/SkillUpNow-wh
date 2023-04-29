@@ -16,6 +16,14 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The TeachPlan class is an entity that represents a teaching plan in the application.
+ * It contains properties such as id, pname, parentId, grade, description, orderBy, and course.
+ *
+ * @author Your Name
+ * @version 1.0
+ * @since 1.0
+ */
 @Entity
 @Table(name = "teach_plan")
 @Getter
@@ -58,6 +66,17 @@ public class TeachPlan implements Serializable {
   @JsonIgnore
   private Course course;
 
+  /**
+   * Constructor for the TeachPlan class with id, pname, parentId, grade, description, orderBy, and course.
+   *
+   * @param id The id of the teaching plan.
+   * @param pname The name of the teaching plan.
+   * @param parentId The parent id of the teaching plan.
+   * @param grade The grade of the teaching plan.
+   * @param description The description of the teaching plan.
+   * @param orderBy The order of the teaching plan.
+   * @param course The course associated with the teaching plan.
+   */
   public TeachPlan(Long id, String pname, Long parentId, Short grade, String description, Integer orderBy,
       Course course) {
     this.id = id;
@@ -69,9 +88,17 @@ public class TeachPlan implements Serializable {
     this.course = course;
   }
 
+  /**
+   * Default constructor for the TeachPlan class.
+   */
   public TeachPlan() {
   }
 
+  /**
+   * Getter method for the course name associated with the teaching plan.
+   *
+   * @return The name of the associated course.
+   */
   @JsonProperty("course")
   public String getCourseName() {
     return course.getName();

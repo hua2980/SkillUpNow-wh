@@ -9,6 +9,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class contains test cases for the UserRepository class.
+ *
+ * @author Hua Wang
+ */
 @DataJpaTest
 public class UserRepositoryTest {
 

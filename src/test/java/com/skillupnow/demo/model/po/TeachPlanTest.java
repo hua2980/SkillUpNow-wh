@@ -8,9 +8,17 @@ import com.skillupnow.demo.model.po.TeachPlan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the TeachPlan.
+ *
+ * @author Hua Wang
+ */
 public class TeachPlanTest {
   private TeachPlan teachPlan;
 
+  /**
+   * This method sets up the test environment by initializing the TeachPlan instance.
+   */
   @BeforeEach
   public void setUp() {
     Course course = new Course();
@@ -19,6 +27,9 @@ public class TeachPlanTest {
     teachPlan = new TeachPlan(1L, "Test Plan", 0L, (short) 1, "Test description", 1, course);
   }
 
+  /**
+   * Tests the getter and setter methods of the TeachPlan class.
+   */
   @Test
   public void testGettersAndSetters() {
     // Normal case

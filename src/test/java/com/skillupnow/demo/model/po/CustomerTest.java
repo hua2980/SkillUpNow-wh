@@ -11,6 +11,11 @@ import com.skillupnow.demo.model.po.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the Customer class.
+ *
+ * @author Hua Wang
+ */
 public class CustomerTest {
   private Customer customer;
 
@@ -18,6 +23,9 @@ public class CustomerTest {
 
   private Cart cart;
 
+  /**
+   * This method sets up the test environment by initializing the Customer instance.
+   */
   @BeforeEach
   public void setUp() {
     customer = new Customer("Irene", "12345678", UserType.CUSTOMER);
@@ -28,6 +36,9 @@ public class CustomerTest {
     customer2 = new Customer("John", "password", UserType.CUSTOMER, cart);
   }
 
+  /**
+   * Tests the getter and setter methods of the Customer class.
+   */
   @Test
   public void testGettersAndSetters() {
     customer.setFirstname("Irene");
@@ -52,6 +63,10 @@ public class CustomerTest {
     assertEquals(cart, customer2.getCart());
   }
 
+  /**
+   * Tests the addCart and removeCart methods of the Customer class.
+   *
+   */
   @Test
   public void testAddAndRemoveOrder() {
     Order order1 = new Order();

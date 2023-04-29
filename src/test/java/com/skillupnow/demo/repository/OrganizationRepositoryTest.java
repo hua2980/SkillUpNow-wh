@@ -10,6 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * This class contains test cases for the OrganizationRepository class.
+ *
+ * @author Hua Wang
+ */
 @DataJpaTest
 public class OrganizationRepositoryTest {
 
@@ -19,6 +24,9 @@ public class OrganizationRepositoryTest {
   @Autowired
   private OrganizationRepository organizationRepository;
 
+  /**
+   * Tests the findByUsername method of the OrganizationRepository class.
+   */
   @Test
   public void testFindByUsername() {
     // Setup

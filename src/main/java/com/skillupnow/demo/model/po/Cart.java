@@ -14,12 +14,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+/**
+ * The Cart class represents the shopping cart of a customer.
+ * It includes the cart ID, a list of courses in the cart,
+ * the customer, and the total and original total prices.
+ *
+ * @author Hua Wang
+ */
 @Entity
 @Table(name = "cart")
 @Getter
@@ -60,6 +64,11 @@ public class Cart implements Serializable {
   @JsonProperty
   private BigDecimal originalTotal;
 
+  /**
+   * Adds a course to the cart and updates the total and original total prices.
+   *
+   * @param course The course to be added to the cart.
+   */
   public void addCourse(Course course) {
     if (courses == null) {
       courses = new ArrayList<>();
@@ -72,6 +81,11 @@ public class Cart implements Serializable {
     originalTotal = originalTotal.add(course.getOriginalPrice());
   }
 
+  /**
+   * Removes a course from the cart and updates the total and original total prices.
+   *
+   * @param course The course to be removed from the cart.
+   */
   public void removeCourse(Course course) {
     if (courses == null || courses.isEmpty()) {
       return;
@@ -81,11 +95,19 @@ public class Cart implements Serializable {
     originalTotal = originalTotal.subtract(course.getOriginalPrice());
   }
 
+  /**
+   * Initializes the cart by setting total and original total prices to zero.
+   */
   public void initializeCart() {
     total = new BigDecimal(0);
     originalTotal = new BigDecimal(0);
   }
 
+  /**
+   * Returns the username of the associated customer.
+   *
+   * @return The username of the associated customer.
+   */
   @JsonProperty("username")
   public String getUsername() {
     return customer.getUsername();

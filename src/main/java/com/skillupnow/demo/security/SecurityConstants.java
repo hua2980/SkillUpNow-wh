@@ -1,5 +1,9 @@
 package com.skillupnow.demo.security;
 
+/**
+ * This class contains constants related to security configuration, such as JWT token settings.
+ * These constants are used throughout the application to maintain consistency and readability.
+ */
 public class SecurityConstants {
 
 	public static final String SECRET = "oursecretkey";

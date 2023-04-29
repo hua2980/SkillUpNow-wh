@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+/**
+ * This class contains test cases for the CartRepository class.
+ *
+ * @author Hua Wang
+ */
 @DataJpaTest
 public class CartRepositoryTest {
   @Autowired
@@ -17,6 +22,9 @@ public class CartRepositoryTest {
   @Autowired
   private TestEntityManager entityManager;
 
+  /**
+   * Tests the findById method of the CartRepository class.
+   */
   @Test
   public void testFindById() {
     // Setup

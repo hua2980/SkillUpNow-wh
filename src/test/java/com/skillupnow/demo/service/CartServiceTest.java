@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration test for CartService
+ *
+ * @author Hua Wang
  */
 @SpringBootTest
 @Transactional
@@ -18,11 +20,14 @@ public class CartServiceTest {
   @Autowired
   private CartService cartService;
 
-  private final String username = "Irene";
+  private final String username = "hua0837";
   private final String invalidUsername = "InvalidUser";
   private final Long validCourseId = 1L;
   private final Long invalidCourseId = 999L;
 
+  /**
+   * Tests the modifyCart method of the CartService class.
+   */
   @Test
   public void testModifyCartInvalidInputs(){
     // Edge case: adding a non-existing course should throw an exception
@@ -36,6 +41,9 @@ public class CartServiceTest {
     assertEquals("Customer not found", exception.getMessage());
   }
 
+  /**
+   * Tests the modifyCart method of the CartService class.
+   */
   @Test
   public void testModifyCartAddingCourse() {
     // Normal case
@@ -49,6 +57,9 @@ public class CartServiceTest {
     assertEquals("The course is already in your cart", exception.getMessage());
   }
 
+  /**
+   * Tests the modifyCart method of the CartService class.
+   */
   @Test
   void testModifyCartRemoveCourse() {
     // Add course to cart first
@@ -68,6 +79,9 @@ public class CartServiceTest {
     assertEquals("Course not in the cart", exception.getMessage());
   }
 
+  /**
+   * Tests the getCartByUsername method of the CartService class.
+   */
   @Test
   void testGetCartByUsername() {
     // add to cart first

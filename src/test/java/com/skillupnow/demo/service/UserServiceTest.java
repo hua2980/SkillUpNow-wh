@@ -12,6 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class contains test cases for the UserService class.
+ *
+ * @author Hua Wang
+ */
 @SpringBootTest
 @Transactional
 public class UserServiceTest {
@@ -24,6 +29,9 @@ public class UserServiceTest {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+  /**
+   * Tests the findByUsername method of the UserService class.
+   */
   @Test
   void testUpdateCredential() {
     // Set up
@@ -51,7 +59,7 @@ public class UserServiceTest {
 
     // Test case: username already exists
     request.setConfirmPassword("newpassword");
-    request.setUsername("Irene");
+    request.setUsername("hua0837");
     exception = assertThrows(SkillUpNowException.class, () -> userService.updateCredential(request, "user2"));
     assertEquals("Username already exists", exception.getMessage());
 

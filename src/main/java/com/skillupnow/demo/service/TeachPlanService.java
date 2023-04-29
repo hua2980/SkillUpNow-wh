@@ -14,6 +14,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * This class provides the main services related to managing teach plans in the SkillUpNow demo application.
+ */
 @Service
 public class TeachPlanService {
 
@@ -23,6 +26,13 @@ public class TeachPlanService {
   @Autowired
   private CourseRepository courseRepository;
 
+  /**
+   * Retrieves the teach plan tree for a given course ID.
+   *
+   * @param courseId The ID of the course for which the teach plan tree should be retrieved.
+   * @return A list of teach plan tree DTOs representing the teach plan hierarchy.
+   * @throws SkillUpNowException If the course is not found.
+   */
   public List<TeachPlanTreeDto> getTeachPlanTreeByCourseId(Long courseId) {
     Course course = courseRepository.findById(courseId).orElse(null);
     if (course == null) {

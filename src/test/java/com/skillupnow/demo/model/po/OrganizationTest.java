@@ -8,14 +8,25 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the Organization.
+ *
+ * @author Hua Wang
+ */
 public class OrganizationTest {
   private Organization organization;
 
+  /**
+   * This method sets up the test environment by initializing the Organization instance.
+   */
   @BeforeEach
   public void setUp() {
     organization = new Organization("test", "password", UserType.ORGANIZATION);
   }
 
+  /**
+   * Tests the getter and setter methods of the Organization class.
+   */
   @Test
   public void testGettersAndSetters() {
 
@@ -41,6 +52,9 @@ public class OrganizationTest {
     assertEquals(courses, organization.getCourses());
   }
 
+  /**
+   * Tests the constructors of the Organization class.
+   */
   @Test
   void testConstructors() {
     Organization organization1 = new Organization();

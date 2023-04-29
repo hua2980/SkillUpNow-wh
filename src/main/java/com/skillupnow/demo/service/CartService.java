@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class provides the main services related to managing a customer's cart in the SkillUpNow demo application.
+ */
 @Service
 public class CartService {
   @Autowired
@@ -23,6 +26,13 @@ public class CartService {
   @Autowired
   private CourseRepository courseRepository;
 
+  /**
+   * Retrieves the cart of a customer based on their username.
+   *
+   * @param username The username of the customer.
+   * @return The customer's cart.
+   * @throws SkillUpNowException If the customer is not found.
+   */
   public Cart getCartByUsername(String username){
     Customer customer = customerRepository.findByUsername(username);
     if (customer == null) {
@@ -31,6 +41,14 @@ public class CartService {
     return customer.getCart();
   }
 
+  /**
+   * Modifies the cart of a customer by adding or removing a course, based on the provided request.
+   * This method is transactional, meaning that all database operations are performed within a single transaction.
+   *
+   * @param request The request containing the customer's username, the course ID, and the action (add or remove).
+   * @return The modified cart.
+   * @throws SkillUpNowException If the customer or course is not found, or if an invalid action is requested.
+   */
   @Transactional
   public Cart modifyCart(ModifyCartRequest request) {
     // get the customer and assert the customer exists

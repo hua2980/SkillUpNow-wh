@@ -9,14 +9,25 @@ import com.skillupnow.demo.model.po.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the User class.
+ *
+ * @author Hua Wang
+ */
 public class UserTest {
   private User user;
 
+  /**
+   * This method sets up the test environment by initializing the User instance.
+   */
   @BeforeEach
   public void setUp() {
     user = new User("Irene", "12345678", UserType.CUSTOMER);
   }
 
+  /**
+   * Tests the getter and setter methods of the User class.
+   */
   @Test
   public void testGettersAndSetters() {
     // Normal case

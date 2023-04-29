@@ -24,13 +24,36 @@ import com.auth0.jwt.JWT;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
+/**
+ * JWTAuthenticationVerificationFilter is a custom authentication filter for verifying the
+ * JWT token in the incoming request. It extends the BasicAuthenticationFilter provided
+ * by Spring Security.
+ *
+ * @author Hua Wang
+ */
+
 @Component
 public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter {
 
+  /**
+   * Constructs a new JWTAuthenticationVerificationFilter with the given authentication manager.
+   *
+   * @param authManager the authentication manager
+   */
   public JWTAuthenticationVerificationFilter(AuthenticationManager authManager) {
     super(authManager);
   }
 
+  /**
+   * Filters the incoming request and verifies the JWT token in the header. If the token is valid,
+   * it sets the authentication in the security context.
+   *
+   * @param req the HttpServletRequest
+   * @param res the HttpServletResponse
+   * @param chain the FilterChain
+   * @throws IOException if an input or output error occurs
+   * @throws ServletException if a servlet-specific error occurs
+   */
   @Override
   protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
       throws IOException, ServletException {
@@ -47,6 +70,13 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
     chain.doFilter(req, res);
   }
 
+  /**
+   * Retrieves the authentication token from the request header, decodes the JWT token,
+   * and creates a new UsernamePasswordAuthenticationToken.
+   *
+   * @param req the HttpServletRequest
+   * @return the UsernamePasswordAuthenticationToken containing the user details and authorities
+   */
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
     String token = req.getHeader(SecurityConstants.HEADER_STRING);
     if (token != null) {

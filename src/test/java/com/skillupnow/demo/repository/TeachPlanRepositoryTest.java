@@ -11,6 +11,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * This class contains test cases for the TeachPlanRepository class.
+ *
+ * @author Hua Wang
+ */
 @DataJpaTest
 public class TeachPlanRepositoryTest {
 
@@ -20,6 +25,9 @@ public class TeachPlanRepositoryTest {
   @Autowired
   private TeachPlanRepository teachPlanRepository;
 
+  /**
+   * Tests the findByCourse method of the TeachPlanRepository class.
+   */
   @Test
   public void testFindByCourse() {
     // Setup

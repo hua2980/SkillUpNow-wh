@@ -9,7 +9,16 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the TeachPlanTreeDto class.
+ *
+ * @author Hua Wang
+ */
 public class TeachPlanTreeDtoTest {
+
+  /**
+   * Tests the constructor of the TeachPlanTreeDto class.
+   */
   @Test
   public void testConstructor() {
     Course course = new Course();
@@ -24,6 +33,9 @@ public class TeachPlanTreeDtoTest {
     assertEquals(course, teachPlanTreeDto.getCourse());
   }
 
+  /**
+   * Tests the getter and setter methods of the TeachPlanTreeDto class.
+   */
   @Test
   public void testGettersAndSetters() {
     Course course = new Course();

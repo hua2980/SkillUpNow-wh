@@ -12,6 +12,11 @@ import javax.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the ModifyCustomerRequest class.
+ *
+ * @author Hua Wang
+ */
 public class ModifyCustomerRequestTest {
   private Validator validator;
   private ModifyCustomerRequest modifyCustomerRequest;
@@ -21,12 +26,18 @@ public class ModifyCustomerRequestTest {
   String email = "irene@gmail.com";
   String headline = "Software Engineer";
 
+  /**
+   * This method sets up the test environment by initializing the ModifyCustomerRequest and Validator instances.
+   */
   @BeforeEach
   public void setUp() {
     validator = Validation.buildDefaultValidatorFactory().getValidator();
     modifyCustomerRequest = new ModifyCustomerRequest(firstname, lastname, email, headline);
   }
 
+  /**
+   * Tests the constructor of the ModifyCustomerRequest class.
+   */
   @Test
   public void testConstructor() {
     assertEquals(firstname, modifyCustomerRequest.getFirstname());
@@ -35,6 +46,9 @@ public class ModifyCustomerRequestTest {
     assertEquals(headline, modifyCustomerRequest.getHeadline());
   }
 
+  /**
+   * Tests the getter and setter methods of the ModifyCustomerRequest class.
+   */
   @Test
   public void testGettersAndSetters() {
     String firstname = "Hua";
@@ -53,6 +67,9 @@ public class ModifyCustomerRequestTest {
     assertEquals(headline, modifyCustomerRequest.getHeadline());
   }
 
+  /**
+   * Tests the validation methods of the ModifyCustomerRequest class.
+   */
   @Test
   public void testValidations() {
     modifyCustomerRequest.setFirstname("");

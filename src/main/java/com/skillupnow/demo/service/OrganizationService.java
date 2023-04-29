@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class provides the main services related to managing organizations in the SkillUpNow demo application.
+ */
 @Service
 public class OrganizationService {
   @Autowired
@@ -24,6 +27,13 @@ public class OrganizationService {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+  /**
+   * Finds an organization by its username.
+   *
+   * @param username The username of the organization to be found.
+   * @return The found organization with the password field muted.
+   * @throws SkillUpNowException If the organization is not found.
+   */
   public Organization findByUsername(String username) {
     Organization organization = organizationRepository.findByUsername(username);
     if (organization == null) {
@@ -34,6 +44,14 @@ public class OrganizationService {
     return returnOrganization;
   }
 
+  /**
+   * Creates a new organization with the provided request data.
+   * This method is transactional, meaning that all database operations are performed within a single transaction.
+   *
+   * @param createUserRequest The request containing the information needed to create the organization.
+   * @return The created organization with the password field muted.
+   * @throws SkillUpNowException If the username is already taken.
+   */
   @Transactional
   public User createOrganization(CreateUserRequest createUserRequest) throws SkillUpNowException {
     // check if the username is already taken

@@ -14,6 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class contains test cases for the OrderService class.
+ *
+ * @auther Hua Wang
+ */
 @SpringBootTest
 @Transactional
 public class OrderServiceTest {
@@ -27,9 +32,12 @@ public class OrderServiceTest {
   @Autowired
   private CustomerService customerService;
 
-  private final String validUsername = "Irene";
+  private final String validUsername = "hua0837";
   private final Long validCourseId = 1L;
 
+  /**
+   * Tests the createOrder method of the OrderService class.
+   */
   @Test
   public void testCreateOrder() {
     ModifyCartRequest request = new ModifyCartRequest(validUsername, validCourseId, 0);
@@ -52,6 +60,9 @@ public class OrderServiceTest {
     assertEquals("Cart is empty", exception.getMessage());
   }
 
+  /**
+   * Tests the deleteOrder method of the OrderService class.
+   */
   @Test
   void testDeleteOrder() {
     ModifyCartRequest request = new ModifyCartRequest(validUsername, validCourseId, 0);
@@ -69,6 +80,9 @@ public class OrderServiceTest {
     assertEquals("Order not found", exception.getMessage());
   }
 
+  /**
+   * Tests the getOrdersByUsername method of the OrderService class.
+   */
   @Test
   void testGetOrdersByUsername() {
     // Normal case

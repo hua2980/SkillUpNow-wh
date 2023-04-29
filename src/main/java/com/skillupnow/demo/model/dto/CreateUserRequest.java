@@ -10,6 +10,12 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The CreateUserRequest class represents the data transfer object for creating a new user.
+ * It includes the user type, username, password, and confirm password fields.
+ *
+ * @author Hua Wang
+ */
 @Getter
 @Setter
 public class CreateUserRequest {
@@ -32,9 +38,19 @@ public class CreateUserRequest {
   @JsonProperty
   private String password;
 
+  /**
+   * Default constructor for CreateUserRequest.
+   */
   public CreateUserRequest() {
   }
 
+  /**
+   * Constructor for CreateUserRequest with parameters.
+   * @param userType The user type of the new user.
+   * @param confirmPassword The confirmation password field for the new user.
+   * @param username The username of the new user.
+   * @param password The password for the new user.
+   */
   public CreateUserRequest(UserType userType, String confirmPassword, String username,
       String password) {
     this.userType = userType;
@@ -43,6 +59,10 @@ public class CreateUserRequest {
     this.password = password;
   }
 
+  /**
+   * Checks if the password and confirm password fields match.
+   * @return true if the password and confirm password fields match, false otherwise.
+   */
   @AssertTrue(message = "Password and confirm password must match", groups = {
       ValidationGroups.Insert.class})
   public boolean isPasswordMatch() {

@@ -19,10 +19,18 @@ import javax.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the CreateUserRequest class.
+ *
+ * @author Hua Wang
+ */
 public class CreateUserRequestTest {
   private CreateUserRequest createUserRequest;
   private Validator validator;
 
+  /**
+   * This method sets up the test environment by initializing the CreateUserRequest and Validator instances.
+   */
   @BeforeEach
   public void setUp() {
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -30,6 +38,9 @@ public class CreateUserRequestTest {
     createUserRequest = new CreateUserRequest();
   }
 
+  /**
+   * Tests the getter and setter methods of the CreateUserRequest class.
+   */
   @Test
   public void testGettersAndSetters() {
     UserType userType = UserType.CUSTOMER;
@@ -57,6 +68,9 @@ public class CreateUserRequestTest {
     assertEquals(password, createUserRequest.getPassword());
   }
 
+  /**
+   * Tests the normal case validation of the CreateUserRequest class.
+   */
   @Test
   public void testValidationNormalCase(){
     // Normal case: all fields are not empty; password is in the valid format; password and confirm password match
@@ -70,6 +84,9 @@ public class CreateUserRequestTest {
     assertTrue(violations.isEmpty());
   }
 
+  /**
+   * Tests the not-null validation of the CreateUserRequest class.
+   */
   @Test
   public void testNotNullValidation() {
     createUserRequest.setUserType(null);
@@ -89,6 +106,9 @@ public class CreateUserRequestTest {
             "password must be between 7 and 20 characters")));
   }
 
+  /**
+   * Tests the not-empty validation of the CreateUserRequest class.
+   */
   @Test
   public void testNotEmptyValidation() {
     createUserRequest.setUserType(UserType.CUSTOMER);
@@ -104,6 +124,9 @@ public class CreateUserRequestTest {
     assertEquals("username is required", violation.getMessage());
   }
 
+  /**
+   * Tests the size validation of the CreateUserRequest class.
+   */
   @Test
   public void testSizeValidation() {
     createUserRequest.setUserType(UserType.CUSTOMER);
@@ -119,6 +142,7 @@ public class CreateUserRequestTest {
     assertEquals("password must be between 7 and 20 characters", violation.getMessage());
 
     createUserRequest.setPassword("ThisPasswordIsWayTooLongAndShouldNotBeAccepted");
+    createUserRequest.setConfirmPassword("ThisPasswordIsWayTooLongAndShouldNotBeAccepted");
     violations = validator
         .validate(createUserRequest, ValidationGroups.Insert.class);
     violation = violations.stream().findFirst().orElse(null);
@@ -126,6 +150,9 @@ public class CreateUserRequestTest {
     assertEquals("password must be between 7 and 20 characters", violation.getMessage());
   }
 
+  /**
+   * Tests the password match validation of the CreateUserRequest class.
+   */
   @Test
   public void testIsPasswordMatch() {
     createUserRequest.setUserType(UserType.CUSTOMER);

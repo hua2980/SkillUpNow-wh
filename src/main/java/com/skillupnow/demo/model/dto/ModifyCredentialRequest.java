@@ -7,6 +7,12 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The ModifyCredentialRequest class represents the data transfer object for updating a user's
+ * credentials. It includes the username, new password, and confirm password fields.
+ *
+ * @author Hua Wang
+ */
 @Getter
 @Setter
 public class ModifyCredentialRequest {
@@ -22,9 +28,14 @@ public class ModifyCredentialRequest {
   @NotEmpty(message = "confirm password is required", groups = {ValidationGroups.Update.class})
   private String confirmPassword;
 
+  /**
+   * Checks if the new password and confirm password fields match.
+   *
+   * @return true if the new password and confirm password fields match, false otherwise.
+   */
   @AssertTrue(message = "Password and confirm password must match", groups = {
       ValidationGroups.Update.class})
   public boolean isPasswordMatch() {
-    return newPassword.equals(confirmPassword);
+    return newPassword != null && newPassword.equals(confirmPassword);
   }
 }

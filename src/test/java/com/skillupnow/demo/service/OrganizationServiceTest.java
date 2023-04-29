@@ -15,6 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * This class contains test cases for the OrganizationService class.
+ *
+ * @author Hua Wang
+ */
 @SpringBootTest
 @Transactional
 public class OrganizationServiceTest {
@@ -32,8 +37,11 @@ public class OrganizationServiceTest {
 
   private final String existedUsername = "learn365";
 
+  /**
+   * Tests the findByUsername method of the OrganizationService class.
+   */
   @Test
-  void testFindByUsername() throws SkillUpNowException {
+  void testFindByUsername() {
     // Normal case: find an existing organization
     Organization organization = organizationService.findByUsername(existedUsername);
     assertNotNull(organization);
@@ -47,8 +55,11 @@ public class OrganizationServiceTest {
     assertEquals("Organization not found", exception.getMessage());
   }
 
+  /**
+   * test the createOrganization method of the OrganizationService class.
+   */
   @Test
-  void createOrganization() throws SkillUpNowException {
+  void testCreateOrganization() {
     // Normal case
     CreateUserRequest createUserRequest = new CreateUserRequest();
     createUserRequest.setUsername("test_username");

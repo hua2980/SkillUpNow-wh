@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class provides the main services related to managing orders in the SkillUpNow demo application.
+ */
 @Service
 public class OrderService {
   @Autowired
@@ -25,6 +28,14 @@ public class OrderService {
   @Autowired
   private CustomerRepository customerRepository;
 
+  /**
+   * Creates a new order based on the provided cart.
+   * This method is transactional, meaning that all database operations are performed within a single transaction.
+   *
+   * @param cart The cart from which the order will be created.
+   * @return The created order.
+   * @throws SkillUpNowException If the cart is empty.
+   */
   @Transactional
   public Order createOrder(Cart cart) {
     // get the customer
@@ -51,6 +62,13 @@ public class OrderService {
     return order;
   }
 
+  /**
+   * Deletes an existing order by its ID.
+   * This method is transactional, meaning that all database operations are performed within a single transaction.
+   *
+   * @param id The ID of the order to be deleted.
+   * @throws SkillUpNowException If the order is not found.
+   */
   @Transactional
   public void deleteOrder(Long id) {
     Order order;
@@ -64,6 +82,13 @@ public class OrderService {
     orderRepository.delete(order);
   }
 
+  /**
+   * Retrieves a list of orders associated with a given customer's username.
+   *
+   * @param username The username of the customer whose orders should be retrieved.
+   * @return A list of orders associated with the customer.
+   * @throws SkillUpNowException If the customer is not found.
+   */
   public List<Order> getOrdersByUsername(String username) {
     Customer customer = customerRepository.findByUsername(username);
     if (customer == null) {

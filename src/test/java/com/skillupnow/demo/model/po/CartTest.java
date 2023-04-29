@@ -6,14 +6,25 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the Cart.
+ *
+ * @author Hua Wang
+ */
 public class CartTest {
   private Cart cart;
 
+  /**
+   * This method sets up the test environment by initializing the Cart instance.
+   */
   @BeforeEach
   public void setUp() {
     cart = new Cart();
   }
 
+  /**
+   * Tests the getter and setter methods of the Cart class.
+   */
   @Test
   public void testGettersAndSetters() {
     // Normal case
@@ -35,6 +46,9 @@ public class CartTest {
     assertEquals(0, cart.getCourses().size());
   }
 
+  /**
+   * Tests the addCourse and removeCourse methods of the Cart class.
+   */
   @Test
   public void testAddAndRemoveCourse() {
     Course course1 = new Course();

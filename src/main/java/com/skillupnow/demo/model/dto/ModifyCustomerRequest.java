@@ -8,6 +8,12 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The ModifyCustomerRequest class represents the data transfer object for updating customer
+ * information. It includes the firstname, lastname, email, and headline fields.
+ *
+ * @author Hua Wang
+ */
 @Getter
 @Setter
 public class ModifyCustomerRequest {
@@ -26,6 +32,14 @@ public class ModifyCustomerRequest {
   @JsonProperty
   private String headline;
 
+  /**
+   * Constructor for ModifyCustomerRequest with parameters.
+   *
+   * @param firstname The first name of the customer.
+   * @param lastname The last name of the customer.
+   * @param email The email address of the customer.
+   * @param headline The headline for the customer profile.
+   */
   public ModifyCustomerRequest(String firstname, String lastname, String email, String headline) {
     this.firstname = firstname;
     this.lastname = lastname;

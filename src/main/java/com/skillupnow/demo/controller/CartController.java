@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The CartController class provides a RESTful API for managing customers' cart.
+ * This includes adding courses to the cart, viewing the cart, and checking out the cart.
+ *
+ * @author Hua Wang
+ */
 @RestController
 @RequestMapping("/cart")
 public class CartController {
@@ -26,6 +32,12 @@ public class CartController {
   @Autowired
   OrderService orderService;
 
+  /**
+   * Adds a course to the authenticated user's cart.
+   *
+   * @param request A ModifyCartRequest object containing the details of the course to add.
+   * @return A ResponseEntity containing the updated cart.
+   */
   @PutMapping
   public ResponseEntity<Cart> addCourseToCart(@RequestBody @Validated(ValidationGroups.Update.class) ModifyCartRequest request) {
     // assert that the username in authentication should match the username in the request
@@ -33,9 +45,15 @@ public class CartController {
     String currentUsername = authentication.getName();
     request.setUsername(currentUsername);
     Cart cart = cartService.modifyCart(request);
-    return ResponseEntity.ok().body(cart);
+    ResponseEntity<Cart> response = ResponseEntity.ok().body(cart);
+    return response;
   }
 
+  /**
+   * Retrieves the authenticated user's cart.
+   *k
+   * @return A ResponseEntity containing the user's cart.
+   */
   @GetMapping
   public ResponseEntity<Cart> getCart() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -44,6 +62,12 @@ public class CartController {
     return ResponseEntity.ok().body(cart);
   }
 
+  /**
+   * Checks out the authenticated user's cart, creating an order if the cart is not empty.
+   *
+   * @return A ResponseEntity containing the user's cart.
+   * @throws SkillUpNowException if the cart is empty.
+   */
   @GetMapping("/checkout")
   public ResponseEntity<Cart> checkout() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,7 +77,8 @@ public class CartController {
       throw new SkillUpNowException("Cart is empty");
     }
     orderService.createOrder(cart);
-    return ResponseEntity.ok().body(cart);
+    ResponseEntity<Cart> response = ResponseEntity.ok().body(cart);
+    return response;
   }
 
 }

@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class provides the main services related to managing a customer in the SkillUpNow demo application.
+ */
 @Service
 public class CustomerService {
 
@@ -29,9 +32,17 @@ public class CustomerService {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
   @Autowired
   private CartRepository cartRepository;
 
+  /**
+   * Retrieves a customer by their username.
+   *
+   * @param username The username of the customer.
+   * @return The customer without their password.
+   * @throws SkillUpNowException If the customer is not found.
+   */
   public Customer findByUsername(String username) {
     Customer customer = customerRepository.findByUsername(username);
     if (customer == null) {
@@ -42,6 +53,14 @@ public class CustomerService {
     return returnCustomer;
   }
 
+  /**
+   * Creates a new customer based on the provided request.
+   * This method is transactional, meaning that all database operations are performed within a single transaction.
+   *
+   * @param createUserRequest The request containing the customer's information.
+   * @return The created user without their password.
+   * @throws SkillUpNowException If the username is already taken.
+   */
   @Transactional
   public User createCustomer(CreateUserRequest createUserRequest) throws SkillUpNowException {
     // check if the username is already taken
@@ -68,6 +87,14 @@ public class CustomerService {
     return returnInfo;
   }
 
+  /**
+   * Updates the information of an existing customer based on the provided request.
+   * This method is transactional, meaning that all database operations are performed within a single transaction.
+   *
+   * @param modifyCustomerRequest The request containing the customer's updated information.
+   * @param username The username of the customer to update.
+   * @throws SkillUpNowException If the customer is not found.
+   */
   @Transactional
   public void updateCustomer(ModifyCustomerRequest modifyCustomerRequest, String username) throws SkillUpNowException {
     // get customer

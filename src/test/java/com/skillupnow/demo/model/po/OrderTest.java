@@ -15,14 +15,25 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class contains test cases for the Order.
+ *
+ * @author Hua Wang
+ */
 public class OrderTest {
   private Order order;
 
+  /**
+   * This method sets up the test environment by initializing the Order instance.
+   */
   @BeforeEach
   public void setUp() {
     order = new Order();
   }
 
+  /**
+   * Tests the getter and setter methods of the Order class.
+   */
   @Test
   public void testGettersAndSetters() {
     // Normal case

@@ -21,6 +21,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The User class is an entity that represents a user in the application.
+ * It is the parent class for specific user types such as Customer and Organization.
+ * It contains properties such as id, username, password, userType, and email.
+ *
+ * @author Hua Wang
+ */
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -51,10 +58,19 @@ public class User implements Serializable {
   @Column(name = "email")
   String email;
 
-
+  /**
+   * Default constructor for the User class.
+   */
   public User() {
   }
 
+  /**
+   * Constructor for the User class with username, password, and type.
+   *
+   * @param username The username of the user.
+   * @param password The password of the user.
+   * @param type The type of the user, as defined by UserType enum.
+   */
   public User(String username, String password, UserType type) {
     this.username = username;
     this.password = password;

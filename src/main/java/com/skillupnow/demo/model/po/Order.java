@@ -27,6 +27,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.springframework.beans.BeanUtils;
 
+/**
+ * The Order class is an entity that represents an order placed by a customer
+ * in the application. It contains properties such as id, courses, totalPrice,
+ * createTime, and customer.
+ *
+ * @author Hua Wang
+ */
 @Entity
 @Table(name = "orders")
 @Getter
@@ -55,9 +62,17 @@ public class Order {
   @JsonIgnore
   private Customer customer;
 
+  /**
+   * Default constructor for the Order class.
+   */
   public Order() {
   }
 
+  /**
+   * Returns a list of CourseDto objects corresponding to the courses in the order.
+   *
+   * @return A list of CourseDto objects.
+   */
   @JsonProperty("courses")
   public List<CourseDto> getCourseDtos() {
     List<CourseDto> courseDtos = new ArrayList<>();
@@ -69,6 +84,11 @@ public class Order {
     return courseDtos;
   }
 
+  /**
+   * Returns the formatted string representation of the createTime property.
+   *
+   * @return The formatted createTime as a string.
+   */
   @JsonProperty("createTime")
   public String getCreateTimeString() {
     return createTime.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));

@@ -10,6 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * This class contains test cases for the CustomerRepository class.
+ *
+ * @author Hua Wang
+ */
 @DataJpaTest
 public class CustomerRepositoryTest {
 
@@ -19,6 +24,9 @@ public class CustomerRepositoryTest {
   @Autowired
   private CustomerRepository customerRepository;
 
+  /**
+   * Tests the findByUsername method of the CustomerRepository class.
+   */
   @Test
   public void testFindByUsername() {
     // Setup

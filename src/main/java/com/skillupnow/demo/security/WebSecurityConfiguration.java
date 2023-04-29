@@ -23,17 +23,33 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
+/**
+ * This class provides the main configuration for the web security in the SkillUpNow demo application.
+ * It extends the {@link WebSecurityConfigurerAdapter} class to customize the security configuration.
+ */
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   private UserDetailServiceImpl userDetailService;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+  /**
+   * Constructs a new WebSecurityConfiguration instance with the provided user detail service and password encoder.
+   *
+   * @param userDetailService     The user detail service used for user authentication.
+   * @param bCryptPasswordEncoder The password encoder used to hash and verify user passwords.
+   */
   public WebSecurityConfiguration(UserDetailServiceImpl userDetailService,
       BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userDetailService = userDetailService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
 
+  /**
+   * Configures the HTTP security for the application, such as CORS, CSRF, authentication and authorization rules.
+   *
+   * @param http The HttpSecurity object to configure.
+   * @throws Exception If an error occurs during the configuration.
+   */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable().authorizeRequests()
@@ -60,6 +76,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     //     .anyRequest().permitAll();
   }
 
+  /**
+   * Configures the web security for the application, such as static resource handling.
+   *
+   * @param web The WebSecurity object to configure.
+   */
   @Override
   public void configure(WebSecurity web) {
     web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
@@ -68,12 +89,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     web.ignoring().antMatchers("/image/**");
   }
 
+  /**
+   * Provides the authentication manager bean used for authentication purposes.
+   *
+   * @return The authentication manager bean.
+   * @throws Exception If an error occurs during the creation of the authentication manager bean.
+   */
   @Override
   @Bean("authenticationManager")
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
   }
 
+  /**
+   * Configures the authentication manager builder with the user detail service and password encoder.
+   *
+   * @param auth The AuthenticationManagerBuilder object to configure.
+   * @throws Exception If an error occurs during the configuration.
+   */
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
      auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder);

@@ -9,12 +9,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * This class contains test cases for the TeachPlanService class.
+ *
+ * @author Hua Wang
+ */
 @SpringBootTest
 public class TeachPlanServiceTest {
 
   @Autowired
   TeachPlanService teachPlanService;
 
+  /**
+   * Tests the findTeachPlanByCourseId method of the TeachPlanService class.
+   */
   @Test
   void testFindTeachPlanByCourseId() {
     // Normal case: find teach plans by a valid course id
