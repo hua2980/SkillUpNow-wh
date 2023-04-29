@@ -12,6 +12,6 @@
 
 1. To run the code and explore the website, start the DemoApplication class and visit http://localhost:8080/home.html.
 
-2. To see how the website works, watch the video "demo.mp3".
+2. To see how the website works, watch the video "demo.mov".
 
 3. If you have any questions, please feel free to reach out to me at wang.hua0837@gmail.com.
