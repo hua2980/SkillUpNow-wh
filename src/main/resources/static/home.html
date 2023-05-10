@@ -163,7 +163,7 @@
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     console.log("logout");
-    window.location.href = "http://localhost:8080/login.html";
+    window.location.href = "/login.html";
   }
 
   document.getElementById("logout-link").addEventListener("click", function(event) {
@@ -173,17 +173,17 @@
 
   document.getElementById("cart-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "http://localhost:8080/cart.html";
+    window.location.href = "/cart.html";
   });
 
   document.getElementById("customer-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "http://localhost:8080/customer.html";
+    window.location.href = "/customer.html";
   });
 
   document.getElementById("home-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "http://localhost:8080/home.html";
+    window.location.href = "/home.html";
   });
 
   new Vue({
@@ -197,7 +197,7 @@
     methods: {
       fetchCourses() {
         var _this = this;
-        axios.get('http://localhost:8080/course/list')
+        axios.get('/course/list')
         .then(function (response) {
           console.log(response.data);
           _this.courses = response.data;
@@ -211,7 +211,7 @@
       },
       addToCart(id) {
         var _this = this;
-        axios.put('http://localhost:8080/cart',{
+        axios.put('/cart',{
           username: _this.username,
           courseId: id,
           delete: '0'
@@ -230,7 +230,7 @@
       const token = getCookie('token');
       if (!token) {
         console.log('JWT token not found in the cookie.');
-        window.location.href = 'http://localhost:8080/login.html';
+        window.location.href = '/login.html';
       }
       this.username = getCookie('username');
       this.fetchCourses();

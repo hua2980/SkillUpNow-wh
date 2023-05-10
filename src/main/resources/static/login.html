@@ -90,7 +90,7 @@
           alert('Please fill in all fields.');
           return;
         }
-        axios.post('http://localhost:8080/login', _this.loginForm)
+        axios.post('/login', _this.loginForm)
         .then(function (response) {
           console.log(response);
           document.cookie = 'token=' + encodeURIComponent(
@@ -104,14 +104,14 @@
         });
       },
       signup: function () {
-        window.location.href = 'http://localhost:8080/signup.html';
+        window.location.href = '/signup.html';
       }
     },
     mounted(){
       const token = getCookie('token');
       const username = getCookie('username');
       if (token != null && username != null){
-        window.location.href = 'http://localhost:8080/home.html';
+        window.location.href = '/home.html';
       }
     }
   })
