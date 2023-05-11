@@ -11,6 +11,7 @@ import com.skillupnow.demo.model.po.Customer;
 import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.repository.CustomerRepository;
 import com.skillupnow.demo.repository.UserRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +29,9 @@ public class CustomerServiceTest {
 
   @Autowired
   CustomerService customerService;
+
+  @Autowired
+  UserRepository userRepository;
 
   private final String newUsername = "NoSuchCustomer";
   private final String existedUsername = "hua0837";
@@ -60,14 +64,14 @@ public class CustomerServiceTest {
     User createdUser = customerService.createCustomer(createUserRequest);
     // check if the returned object is correct
     assertNotNull(createdUser);
-    assertEquals(4, createdUser.getId());
+    assertNotNull(createdUser.getId()); // having id means it has been successfully saved into the database
     assertEquals(newUsername, createdUser.getUsername());
     assertEquals(UserType.CUSTOMER, createdUser.getUserType());
     assertNull(createdUser.getPassword());  // the password in the returning result should be muted!
 
     // check if the user is saved in database (so the user can be retrieved)
     Customer customer = customerService.findByUsername(newUsername);
-    assertEquals(4, customer.getId());
+    assertEquals(createdUser.getId(), customer.getId());
     assertNotNull(customer.getCart());
 
     // Edge case: username already exists

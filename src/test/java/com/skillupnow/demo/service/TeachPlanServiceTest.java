@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class contains test cases for the TeachPlanService class.
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author Hua Wang
  */
 @SpringBootTest
+@Transactional
 public class TeachPlanServiceTest {
 
   @Autowired
