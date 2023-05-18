@@ -230,7 +230,7 @@
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     console.log("logout");
-    window.location.href = "/login.html";
+    window.location.href = "/skillupnow/login.html";
   }
 
   document.getElementById("logout-link").addEventListener("click", function(event) {
@@ -240,17 +240,17 @@
 
   document.getElementById("cart-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/cart.html";
+    window.location.href = "/skillupnow/cart.html";
   });
 
   document.getElementById("customer-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/customer.html";
+    window.location.href = "/skillupnow/customer.html";
   });
 
   document.getElementById("home-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/home.html";
+    window.location.href = "/skillupnow/home.html";
   });
 
   new Vue({
@@ -275,7 +275,7 @@
     methods: {
       fetchCustomerProfile() {
         var _this = this;
-        axios.get('/customer')
+        axios.get('/skillupnow/customer')
           .then(response => {
             _this.customerProfile = response.data;
           })
@@ -286,7 +286,7 @@
       },
       submitProfile() {
         var _this = this;
-        axios.put('/customer', _this.customerProfile)
+        axios.put('/skillupnow/customer', _this.customerProfile)
           .then(response => {
             alert("Profile updated successfully!");
             _this.customerProfile = response.data;
@@ -298,7 +298,7 @@
       },
       submitCredential() {
         var _this = this;
-        axios.put('/user/credential', _this.userCredential)
+        axios.put('/skillupnow/user/credential', _this.userCredential)
           .then(response => {
             console.log(response.data);
             alert("Credential updated successfully!");
@@ -312,7 +312,7 @@
       },
       fetchOrders(){
         var _this = this;
-        axios.get('/order')
+        axios.get('/skillupnow/order')
           .then(response => {
             _this.orders = response.data;
             console.log(_this.orders);
@@ -324,7 +324,7 @@
       },
       deleteOrder(orderId){
         var _this = this;
-        axios.delete('/order/' + orderId)
+        axios.delete('/skillupnow/order/' + orderId)
           .then(response => {
               alert("Order deleted successfully!");
               _this.fetchOrders();
@@ -339,7 +339,7 @@
       const token = getCookie('token');
       if (!token) {
         console.log('JWT token not found in the cookie.');
-        window.location.href = '/login.html';
+        window.location.href = '/skillupnow/login.html';
       }
       this.userCredential.username = getCookie('username');
       this.fetchCustomerProfile();

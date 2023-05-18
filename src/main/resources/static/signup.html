@@ -108,7 +108,7 @@
           alert('Please fill in all fields.');
           return;
         }
-        axios.post('/signup', _this.signupForm)
+        axios.post('/skillupnow/signup', _this.signupForm)
         .then(function (response) {
           console.log(response);
           // save token and username to cookie
@@ -117,7 +117,7 @@
           document.cookie = "username=" + response.data.username + "; path=/;";
           console.log(document.cookie)
           // redirect to the home page
-          window.location.href = '/home.html';
+          window.location.href = '/skillupnow/home.html';
         })
         .catch(function (error) {
           console.log(error);
@@ -125,14 +125,14 @@
         });
       },
       login: function () {
-        window.location.href = '/login.html';
+        window.location.href = '/skillupnow/login.html';
       }
     },
     mounted(){
       const token = getCookie('token');
       const username = getCookie('username');
       if (token != null && username != null){
-        window.location.href = '/home.html';
+        window.location.href = '/skillupnow/home.html';
       }
     }
   })

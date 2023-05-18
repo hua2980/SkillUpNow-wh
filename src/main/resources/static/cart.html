@@ -163,7 +163,7 @@
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     console.log("logout");
-    window.location.href = "/login.html";
+    window.location.href = "/skillupnow/login.html";
   }
 
   document.getElementById("logout-link").addEventListener("click", function(event) {
@@ -173,17 +173,17 @@
 
   document.getElementById("cart-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/cart.html";
+    window.location.href = "/skillupnow/cart.html";
   });
 
   document.getElementById("customer-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/customer.html";
+    window.location.href = "/skillupnow/customer.html";
   });
 
   document.getElementById("home-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/home.html";
+    window.location.href = "/skillupnow/home.html";
   });
 
   new Vue({
@@ -199,7 +199,7 @@
     methods: {
       fetchCart() {
         var _this = this;
-        axios.get('/cart')
+        axios.get('/skillupnow/cart')
         .then(function (response) {
           console.log(response.data);
           _this.courses = response.data.courses;
@@ -213,7 +213,7 @@
       },
       remove(id) {
         var _this = this;
-        axios.put('/cart',{
+        axios.put('/skillupnow/cart',{
           username: _this.username,
           courseId: id,
           delete: '1'
@@ -231,7 +231,7 @@
       },
       checkout (){
         var _this = this;
-        axios.get('/cart/checkout')
+        axios.get('/skillupnow/cart/checkout')
         .then(function (response) {
           alert("Checkout successfully!");
           _this.courses = response.data.courses;
@@ -248,7 +248,7 @@
       const token = getCookie('token');
       if (!token) {
         console.log('JWT token not found in the cookie.');
-        window.location.href = '/login.html';
+        window.location.href = '/skillupnow/login.html';
       }
       this.username = getCookie('username');
       console.log("Vue component created");
