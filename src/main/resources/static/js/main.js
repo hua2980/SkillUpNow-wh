@@ -13,7 +13,7 @@ axios.interceptors.request.use((config) => {
     config.headers['Authorization'] = 'Bearer ' + token;
   } else {
     console.log('JWT token not found in the cookie.');
-    window.location.href = '/login.html';
+    window.location.href = '/skillupnow/login.html';
   }
   return config;
 }, (error) => {
