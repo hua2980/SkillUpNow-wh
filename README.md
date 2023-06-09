@@ -1,17 +1,58 @@
-### Building and Running the Code
+# SkillUpNow Web Application
 
-1. In order to build and run the code, please ensure the following prerequisites are met:
+Welcome to SkillUpNow, an educational web application that provides a platform for online learning without boundaries or barriers. You can access the web app using the following URL: [SkillUpNow Web App](http://54.183.114.157:8888/skillupnow/home.html).
 
-2. Maven is installed on your computer and connected to your IDE.
+## Services
 
-3. All required dependencies for running this code are available (you can find the dependencies in the pom.xml file).
+The application is currently in development, but it already offers a number of features for customers, including:
 
-4. To install Maven, visit the following link: https://maven.apache.org/download.cgi
+1. Browsing Courses: Explore and discover various courses available on the platform.
+2. Managing your cart: Manage your course selections and track your cart.
+3. Managing your profile: Customize your user profile and track your learning progress.
 
-### Running the Code and Exploring the Website
+Upcoming services for users will include:
 
-1. To run the code and explore the website, start the DemoApplication class and visit http://localhost:8080/home.html.
+- Video lectures
+- Discussion boards
+- Learning progress tracking
 
-2. To see how the website works, watch the video "demo.mov".
+In the future, we also plan to introduce organizational features that will allow organizations to create and manage course content, classrooms, and publish advertisements from the business end.
 
-3. If you have any questions, please feel free to reach out to me at wang.hua0837@gmail.com.
+SkillUpNow is open to contributions from anyone who wants to help make it the best it can be. If you are interested in contributing, please see the contributing guidelines below.
+
+## Tech Stack & Prerequisites
+
+SkillUpNow is a full-stack web application built using the following technologies:
+
+- Spring Boot
+- Hibernate
+- Vue.js
+- Maven
+- JUnit5
+- Docker
+- Jenkins
+
+The project also uses the following programming languages:
+
+- Java
+- HTML
+- CSS
+- JavaScript
+
+Make sure you have the necessary prerequisites installed before setting up the project.
+
+## Current Highlights & Achievements
+
+We're proud to share some current highlights and achievements:
+
+1. Applied JWT token-based authorization for secure and stateless client-server communication, along with Role-Based Access Control (RBAC).
+2. Implemented a Global Exception Handler and standardized error message responses.
+
+## Quick Glance
+
+Want to get a quick glance at the SkillUpNow website? Download the video from here: [SkillUpNow Web App Quick Glance](/demo.mov)
+
+## Contributing
+
+We welcome anyone who shares our interest in building an inclusive online learning platform. If you would like to contribute to this project, please reach out and join us!
+
