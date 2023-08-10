@@ -1,5 +1,6 @@
 package com.skillupnow.demo.service;
 
+import com.google.gson.Gson;
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.po.Cart;
 import com.skillupnow.demo.model.po.Course;
@@ -10,6 +11,8 @@ import com.skillupnow.demo.repository.CustomerRepository;
 import com.skillupnow.demo.repository.OrderRepository;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class OrderService {
+  Logger logger = LoggerFactory.getLogger(OrderService.class);
   @Autowired
   private OrderRepository orderRepository;
   @Autowired
@@ -45,6 +49,7 @@ public class OrderService {
     Order order = new Order();
     List<Course> courses = cart.getCourses();
     if (courses == null) {
+      logger.error("Failed to create order. Cart is empty, user={}, cart={}", cart.getUsername(), cart.getId());
       throw new SkillUpNowException("Cart is empty");
     }
     order.setCourses(courses);
@@ -74,6 +79,7 @@ public class OrderService {
     Order order;
     Optional<Order> optionalOrder = orderRepository.findById(id);
     if (!optionalOrder.isPresent()) {
+      logger.error("Failed to delete order. Order not found, id={}", id);
       throw new SkillUpNowException("Order not found");
     } else order = optionalOrder.get();
     Customer customer = order.getCustomer();
@@ -92,6 +98,7 @@ public class OrderService {
   public List<Order> getOrdersByUsername(String username) {
     Customer customer = customerRepository.findByUsername(username);
     if (customer == null) {
+      logger.error("Failed to get orders. Customer not found, username={}", username);
       throw new SkillUpNowException("Customer not found");
     }
     return customer.getOrders();

@@ -1,9 +1,12 @@
 package com.skillupnow.demo.controller;
 
 
+import com.google.gson.Gson;
 import com.skillupnow.demo.model.po.Course;
 import com.skillupnow.demo.repository.CourseRepository;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/course")
 public class CourseController {
+  Logger logger = LoggerFactory.getLogger(CourseController.class);
+  Gson gson = new Gson();
   @Autowired
   CourseRepository courseRepository;
 
@@ -41,6 +46,7 @@ public class CourseController {
    */
   @GetMapping("/info/{id}")
   public ResponseEntity<Course> getCourseDetails(@PathVariable("id") Long id) {
+    logger.info("getCourseDetails. id={}", id);
     Course course = courseRepository.findById(id).orElseThrow(null);
     return ResponseEntity.ok().body(course);
   }
