@@ -1,5 +1,6 @@
 package com.skillupnow.demo.service;
 
+import com.google.gson.Gson;
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.UserType;
 import com.skillupnow.demo.model.dto.CreateUserRequest;
@@ -10,6 +11,8 @@ import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.repository.CartRepository;
 import com.skillupnow.demo.repository.CustomerRepository;
 import com.skillupnow.demo.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class CustomerService {
+  Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
   @Autowired
   private CustomerRepository customerRepository;
@@ -43,9 +47,10 @@ public class CustomerService {
    * @return The customer without their password.
    * @throws SkillUpNowException If the customer is not found.
    */
-  public Customer findByUsername(String username) {
+  public Customer findByUsername(String username) throws SkillUpNowException {
     Customer customer = customerRepository.findByUsername(username);
     if (customer == null) {
+      logger.error("Failed to get customer. Customer not found, username={}", username);
       throw new SkillUpNowException("Customer not found");
     }
     Customer returnCustomer = new Customer();
@@ -65,6 +70,7 @@ public class CustomerService {
   public User createCustomer(CreateUserRequest createUserRequest) throws SkillUpNowException {
     // check if the username is already taken
     if (userRepository.findByUsername(createUserRequest.getUsername()) != null) {
+      logger.error("Failed to create customer. Username already taken, username={}", createUserRequest.getUsername());
       throw new SkillUpNowException("Username already taken");
     }
 
@@ -101,6 +107,7 @@ public class CustomerService {
     Customer customer = customerRepository.findByUsername(username);
     // check if the customer exists
     if (customer == null) {
+      logger.error("Failed to update customer. Customer not found, username={}", username);
       throw new SkillUpNowException("Customer not found");
     }
     // update customer

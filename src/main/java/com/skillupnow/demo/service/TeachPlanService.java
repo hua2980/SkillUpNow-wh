@@ -1,5 +1,6 @@
 package com.skillupnow.demo.service;
 
+import com.google.gson.Gson;
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.dto.TeachPlanTreeDto;
 import com.skillupnow.demo.model.po.Course;
@@ -11,6 +12,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TeachPlanService {
-
+  Logger logger = LoggerFactory.getLogger(TeachPlanService.class);
   @Autowired
   private TeachPlanRepository teachPlanRepository;
 
@@ -36,6 +39,7 @@ public class TeachPlanService {
   public List<TeachPlanTreeDto> getTeachPlanTreeByCourseId(Long courseId) {
     Course course = courseRepository.findById(courseId).orElse(null);
     if (course == null) {
+      logger.error("Failed to get teach plan tree. Course not found, courseId={}", courseId);
       throw new SkillUpNowException("Course not found");
     }
     List<TeachPlan> teachPlans = teachPlanRepository.findByCourse(course);

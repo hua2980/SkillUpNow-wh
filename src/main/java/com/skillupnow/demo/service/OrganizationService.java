@@ -1,5 +1,6 @@
 package com.skillupnow.demo.service;
 
+import com.google.gson.Gson;
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.dto.CreateUserRequest;
 import com.skillupnow.demo.model.po.Organization;
@@ -7,6 +8,8 @@ import com.skillupnow.demo.model.po.User;
 import com.skillupnow.demo.repository.OrganizationRepository;
 import com.skillupnow.demo.repository.UserRepository;
 import org.aspectj.weaver.ast.Or;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class OrganizationService {
+  Logger logger = LoggerFactory.getLogger(OrganizationService.class);
+
   @Autowired
   private OrganizationRepository organizationRepository;
 
@@ -37,6 +42,7 @@ public class OrganizationService {
   public Organization findByUsername(String username) {
     Organization organization = organizationRepository.findByUsername(username);
     if (organization == null) {
+      logger.error("Failed to get organization. Organization not found, username={}", username);
       throw new SkillUpNowException("Organization not found");
     }
     Organization returnOrganization = new Organization();
@@ -56,6 +62,7 @@ public class OrganizationService {
   public User createOrganization(CreateUserRequest createUserRequest) throws SkillUpNowException {
     // check if the username is already taken
     if (userRepository.findByUsername(createUserRequest.getUsername()) != null) {
+      logger.error("Failed to create organization. Username already taken, username={}", createUserRequest.getUsername());
       throw new SkillUpNowException("Username already taken");
     }
 

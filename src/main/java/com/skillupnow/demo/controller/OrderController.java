@@ -1,8 +1,11 @@
 package com.skillupnow.demo.controller;
 
+import com.google.gson.Gson;
 import com.skillupnow.demo.model.po.Order;
 import com.skillupnow.demo.service.OrderService;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
+  Logger logger = LoggerFactory.getLogger(OrderController.class);
+  Gson gson = new Gson();
   @Autowired
   private OrderService orderService;
 
@@ -34,6 +39,7 @@ public class OrderController {
   public ResponseEntity<List<Order>> getAllOrders() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();
+    logger.info("getAllOrders. user={}", username);
     List<Order> orders = orderService.getOrdersByUsername(username);
     return ResponseEntity.ok().body(orders);
   }
@@ -47,6 +53,7 @@ public class OrderController {
   @DeleteMapping("/{id}")
   public ResponseEntity<List<Order>> deleteOrderById(@PathVariable Long id) {
     orderService.deleteOrder(id);
+    logger.info("deleteOrderById. id={}", id);
     return ResponseEntity.ok().build();
   }
 }

@@ -3,6 +3,7 @@ package com.skillupnow.demo.controller;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 import com.auth0.jwt.JWT;
+import com.google.gson.Gson;
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.exception.ValidationGroups;
 import com.skillupnow.demo.model.UserType;
@@ -22,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -49,6 +52,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class UserController {
+  Logger logger = LoggerFactory.getLogger(UserController.class);
   @Autowired
   private CustomerService customerService;
 
@@ -72,8 +76,10 @@ public class UserController {
     // Exceptions thrown by UserService (either CustomerService or CompanyService) will be handled by ExceptionHandler
     User user;
     if (createUserRequest.getUserType() == UserType.CUSTOMER) {
+      logger.info("creating customer. username={}", createUserRequest.getUsername());
       user = customerService.createCustomer(createUserRequest);
     } else {
+      logger.info("creating organization. username={}", createUserRequest.getUsername());
       user = organizationService.createOrganization(createUserRequest);
     }
 
@@ -114,6 +120,7 @@ public class UserController {
     // Get current authenticated user
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();
+    logger.info("get customer info for user: {}", currentUsername);
     return ResponseEntity.ok().body(customerService.findByUsername(currentUsername));
   }
 
@@ -128,6 +135,7 @@ public class UserController {
     // Get current authenticated user
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();
+    logger.info("update customer info for user: {}", currentUsername);
     customerService.updateCustomer(modifyCustomerRequest, currentUsername);
     return ResponseEntity.ok().body(modifyCustomerRequest);
   }
@@ -141,6 +149,7 @@ public class UserController {
   public ResponseEntity<ModifyCredentialRequest> updateCredential(@RequestBody @Validated(ValidationGroups.Update.class) ModifyCredentialRequest modifyCredentialRequest) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUsername = authentication.getName();
+    logger.info("update credential for user: {}", currentUsername);
     userService.updateCredential(modifyCredentialRequest, currentUsername);
     modifyCredentialRequest.setConfirmPassword(null);
     modifyCredentialRequest.setNewPassword(null);

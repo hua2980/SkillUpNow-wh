@@ -1,5 +1,6 @@
 package com.skillupnow.demo.service;
 
+import com.google.gson.Gson;
 import com.skillupnow.demo.exception.SkillUpNowException;
 import com.skillupnow.demo.model.dto.ModifyCartRequest;
 import com.skillupnow.demo.model.po.Cart;
@@ -8,6 +9,8 @@ import com.skillupnow.demo.model.po.Customer;
 import com.skillupnow.demo.repository.CartRepository;
 import com.skillupnow.demo.repository.CourseRepository;
 import com.skillupnow.demo.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class CartService {
+  Logger logger = LoggerFactory.getLogger(CartService.class);
+
   @Autowired
   private CustomerRepository customerRepository;
 
@@ -33,9 +38,10 @@ public class CartService {
    * @return The customer's cart.
    * @throws SkillUpNowException If the customer is not found.
    */
-  public Cart getCartByUsername(String username){
+  public Cart getCartByUsername(String username) throws SkillUpNowException{
     Customer customer = customerRepository.findByUsername(username);
     if (customer == null) {
+      logger.error("Failed to get cart. Customer not found, username={}", username);
       throw new SkillUpNowException("Customer not found");
     }
     return customer.getCart();
@@ -49,17 +55,19 @@ public class CartService {
    * @return The modified cart.
    * @throws SkillUpNowException If the customer or course is not found, or if an invalid action is requested.
    */
-  @Transactional
-  public Cart modifyCart(ModifyCartRequest request) {
+  @Transactional(rollbackFor = Exception.class)
+  public Cart modifyCart(ModifyCartRequest request) throws SkillUpNowException {
     // get the customer and assert the customer exists
     Customer customer = customerRepository.findByUsername(request.getUsername());
     if (customer == null) {
+      logger.error("Failed to modify cart. Customer not found, username={}", request.getUsername());
       throw new SkillUpNowException("Customer not found");
     }
 
     // get the course and assert the course exists
     Course course = courseRepository.findById(request.getCourseId()).orElse(null);
     if (course == null) {
+      logger.error("Failed to modify cart. Course not found, courseId={}, username={}", request.getCourseId(), request.getUsername());
       throw new SkillUpNowException("Course not found");
     }
 
@@ -68,12 +76,18 @@ public class CartService {
     // if is deletion, remove the course from the cart
     if (request.getDelete() == 1){
       // course should be in the cart
-      if (!cart.getCourses().contains(course)) throw new SkillUpNowException("Course not in the cart");
+      if (!cart.getCourses().contains(course)) {
+        logger.error("Failed to modify cart. Course not in the cart, courseId={}, username={}", request.getCourseId(), request.getUsername());
+        throw new SkillUpNowException("Course not in the cart");
+      }
       cart.removeCourse(course);
     } else {
       // if is addition, add the course to the cart;
       // throw exception if the course is already in the cart
-      if (cart.getCourses().contains(course)) throw new SkillUpNowException("The course is already in your cart");
+      if (cart.getCourses().contains(course)) {
+        logger.error("Failed to modify cart. Course already in the cart, courseId={}, username={}", request.getCourseId(), request.getUsername());
+        throw new SkillUpNowException("The course is already in your cart");
+      }
       cart.addCourse(course);
     }
 
