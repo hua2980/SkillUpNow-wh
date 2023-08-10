@@ -160,8 +160,8 @@
 
 <script>
   function logout() {
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = 'username=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     console.log("logout");
     window.location.href = "/skillupnow/login.html";
   }
