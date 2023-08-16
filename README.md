@@ -1,6 +1,6 @@
 # SkillUpNow Web Application
 
-Welcome to SkillUpNow, an educational web application that provides a platform for online learning without boundaries or barriers. You can access the web app using the following URL: [SkillUpNow Web App](http://54.183.114.157:8888/skillupnow/home.html).
+Welcome to SkillUpNow, an educational web application that provides a platform for online learning without boundaries or barriers. You can access the web app using the following URL: [SkillUpNow Web App](http://54.193.195.169:8888/skillupnow/home.html).
 
 ## Services
 
